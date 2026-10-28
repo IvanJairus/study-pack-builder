@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reference & Extension · Study Pack Builder</title>
+<meta name="description" content="Reference, glossary, abbreviations, and coverage map for the Study Pack Builder template.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="reference" data-theme="amber">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="progress-rail"><span></span></div>
+
+<header class="topbar">
+  <a class="brand" href="index.html">
+    <span class="brand-tile">SP</span>
+    <span class="brand-name">Study Pack<span class="brand-sub">Builder · template</span></span>
+  </a>
+  <nav class="topnav" aria-label="Main navigation">
+    <a href="index.html">Home</a>
+    <a href="topic.html">Topic</a>
+    <a href="reference.html" aria-current="page">Reference</a>
+    <a href="interview.html">Interview</a>
+    <a class="nav-cta" href="bank-soal.html">Question bank</a>
+  </nav>
+  <button class="menu-btn" data-menu-btn aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</header>
+<div class="mobile-menu" data-mobile-menu>
+  <a href="index.html"><span>Home</span><span>HOME</span></a>
+  <a href="topic.html"><span>Topic</span><span>TOPIC</span></a>
+  <a href="reference.html"><span>Reference</span><span>REFERENCE</span></a>
+  <a href="interview.html"><span>Interview</span><span>INTERVIEW</span></a>
+  <a href="bank-soal.html"><span>Question bank</span><span>QUIZ</span></a>
+</div>
+
+<div class="shell">
+  <aside class="sidebar" aria-label="Study map">
+    <p class="side-label">Study map</p>
+    <nav class="side-nav">
+      <a href="index.html"><span class="num">00</span><span>Home</span><span class="tick"></span></a>
+      <a href="topic.html"><span class="num">01</span><span>Reliability</span><span class="tick"></span></a>
+      <a href="reference.html" aria-current="page"><span class="num">02</span><span>Reference</span><span class="tick"></span></a>
+      <a href="interview.html"><span class="num">03</span><span>Interview</span><span class="tick"></span></a>
+      <a href="bank-soal.html"><span class="num">04</span><span>Question bank</span><span class="tick"></span></a>
+    </nav>
+    <div class="side-block">
+      <p>Extension points</p>
+      <p class="small">Add a foundation page, a coverage map, a glossary, and an abbreviation table for the real pack.</p>
+    </div>
+  </aside>
+
+  <main class="main" id="main"><div class="content">
+    <p class="kicker">Reference · template</p>
+    <h1>Reference & <span class="thin">Extension</span></h1>
+    <p class="lead">Use this page as the pattern for the reference layer of a real study pack: file map, glossary, abbreviations, and a source-to-page coverage table.</p>
+
+    <h2><span class="h2-num">01 · FILES</span>What to edit</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>File</th><th>Purpose</th><th>Replace</th></tr></thead>
+        <tbody>
+          <tr><td><code>index.html</code></td><td>Entry point and topic map.</td><td>Hero, cards, stats, links.</td></tr>
+          <tr><td><code>topic.html</code></td><td>Topic page pattern.</td><td>Title, table, traps, source range.</td></tr>
+          <tr><td><code>assets/quiz-data.js</code></td><td>Question bank data.</td><td>Replace with validated questions.</td></tr>
+          <tr><td><code>interview.html</code></td><td>Interview guide.</td><td>Questions, model answers, audio notes.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2><span class="h2-num">02 · GLOSSARY</span>Terms in plain language</h2>
+    <div class="search-box">
+      <span class="s-icon" aria-hidden="true">⌕</span>
+      <input type="search" placeholder="Search terms: SLO, RTO, error budget..." data-glossary-search aria-label="Search glossary">
+    </div>
+    <div class="glossary">
+      <div class="g-row" data-glossary-row><div class="g-term">SLO</div><div class="g-def">An internal target for a reliability metric over a defined window.</div></div>
+      <div class="g-row" data-glossary-row><div class="g-term">SLI</div><div class="g-def">The measurement used to evaluate an SLO, such as successful requests divided by valid requests.</div></div>
+      <div class="g-row" data-glossary-row><div class="g-term">Error budget</div><div class="g-def">The allowed amount of unreliability derived from the SLO.</div></div>
+      <div class="g-row" data-glossary-row><div class="g-term">RTO</div><div class="g-def">The maximum acceptable time to restore a service after an incident.</div></div>
+      <div class="g-row" data-glossary-row><div class="g-term">RPO</div><div class="g-def">The maximum acceptable data loss, measured as time.</div></div>
+    </div>
+    <div class="empty-state" data-glossary-empty>No term matches. Try another keyword.</div>
+
+    <section id="singkatan">
+      <h2><span class="h2-num">03 · ABBREVIATIONS</span>Short forms and expansions</h2>
+      <div class="search-box">
+        <span class="s-icon" aria-hidden="true">⌕</span>
+        <input type="search" placeholder="Search abbreviation: SLO, KPI, MTTR..." data-abbr-search aria-label="Search abbreviations">
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Short form</th><th>Expansion</th><th>Context</th></tr></thead>
+          <tbody>
+            <tr data-abbr-row><td class="num">SLO</td><td>Service Level Objective</td><td>Reliability target</td></tr>
+            <tr data-abbr-row><td class="num">SLI</td><td>Service Level Indicator</td><td>Measurement</td></tr>
+            <tr data-abbr-row><td class="num">SLA</td><td>Service Level Agreement</td><td>Contract</td></tr>
+            <tr data-abbr-row><td class="num">RTO</td><td>Recovery Time Objective</td><td>Recovery</td></tr>
+            <tr data-abbr-row><td class="num">RPO</td><td>Recovery Point Objective</td><td>Data loss</td></tr>
+            <tr data-abbr-row><td class="num">MTTR</td><td>Mean Time To Recovery</td><td>Incident response</td></tr>
+            <tr data-abbr-row><td class="num">MTBF</td><td>Mean Time Between Failures</td><td>Failure frequency</td></tr>
+            <tr data-abbr-row><td class="num">KPI</td><td>Key Performance Indicator</td><td>Performance</td></tr>
+            <tr data-abbr-row><td class="num">API</td><td>Application Programming Interface</td><td>Integration</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="empty-state" data-abbr-empty>No abbreviation matches. Try another keyword.</div>
+    </section>
+
+    <h2><span class="h2-num">04 · COVERAGE</span>Source to page</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Source range</th><th>Content</th><th>Page</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Slides 1-10</td><td>Foundations</td><td>index.html</td><td><span class="pill ok">Covered</span></td></tr>
+          <tr><td>Slides 11-20</td><td>Reliability</td><td>topic.html</td><td><span class="pill ok">Covered</span></td></tr>
+          <tr><td>Question files</td><td>Question bank</td><td>bank-soal.html</td><td><span class="pill ok">Covered</span></td></tr>
+          <tr><td>Audio notes</td><td>Interview advice</td><td>interview.html</td><td><span class="pill ok">Covered</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="source-note">
+      <span class="label">Source</span>
+      <span class="tiny">Replace with the real coverage map and source ranges.</span>
+    </div>
+
+    <nav class="page-nav" aria-label="Page navigation">
+      <a href="topic.html"><span class="pn-label">Previous</span><span class="pn-title">← Topic</span></a>
+      <a class="next" href="interview.html"><span class="pn-label">Next</span><span class="pn-title">Interview →</span></a>
+    </nav>
+  </div></main>
+</div>
+
+<footer class="site-footer">
+  <span>Study Pack Builder · reference template.</span>
+  <span>Replace sample references with source-derived content.</span>
+</footer>
+<button class="to-top" data-to-top aria-label="Back to top">↑</button>
+<script src="assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "sections": [
+    {
+      "id": "intro",
+      "num": "01",
+      "kicker": "INTRO",
+      "title": "Study Pack Demo",
+      "color": "#2f5d4f",
+      "shot": "home.png",
+      "page": "Home",
+      "bullets": ["One clear idea", "One formula", "One trap"],
+      "takeaway": "Start with the purpose, then the detail.",
+      "text": "Welcome to the study pack demo. This short video shows the path from source material to a clear summary."
+    },
+    {
+      "id": "topic",
+      "num": "02",
+      "kicker": "TOPIC",
+      "title": "Reliability Basics",
+      "color": "#34567f",
+      "shot": "topic.png",
+      "page": "Topic page",
+      "bullets": ["SLO is a target", "Error budget is allowed risk", "Uptime measures availability"],
+      "takeaway": "Define the target before measuring it.",
+      "text": "The second section explains service targets, error budgets, and how to measure unavailable time."
+    }
+  ]
+}

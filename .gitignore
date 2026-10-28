@@ -1,0 +1,23 @@
+.DS_Store
+__pycache__/
+*.pyc
+.venv/
+node_modules/
+working/
+outputs/
+*.m4a
+*.mp3
+*.wav
+*.aiff
+*.pdf
+*.pptx
+*.png
+*.jpg
+*.jpeg
+!assets/**/*.png
+!assets/**/*.svg
+!examples/**/*.json
+!examples/**/*.md
+
+# OCR build artifact
+.ocr-bin

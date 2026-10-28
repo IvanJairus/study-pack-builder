@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reliability Basics · Study Pack Builder</title>
+<meta name="description" content="Sample topic page for the Study Pack Builder template.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="topic" data-theme="green">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="progress-rail"><span></span></div>
+
+<header class="topbar">
+  <a class="brand" href="index.html">
+    <span class="brand-tile">SP</span>
+    <span class="brand-name">Study Pack<span class="brand-sub">Builder · template</span></span>
+  </a>
+  <nav class="topnav" aria-label="Main navigation">
+    <a href="index.html">Home</a>
+    <a href="topic.html" aria-current="page">Topic</a>
+    <a href="reference.html">Reference</a>
+    <a href="interview.html">Interview</a>
+    <a class="nav-cta" href="bank-soal.html">Question bank</a>
+  </nav>
+  <button class="menu-btn" data-menu-btn aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</header>
+<div class="mobile-menu" data-mobile-menu>
+  <a href="index.html"><span>Home</span><span>HOME</span></a>
+  <a href="topic.html"><span>Topic</span><span>TOPIC</span></a>
+  <a href="reference.html"><span>Reference</span><span>REFERENCE</span></a>
+  <a href="interview.html"><span>Interview</span><span>INTERVIEW</span></a>
+  <a href="bank-soal.html"><span>Question bank</span><span>QUIZ</span></a>
+</div>
+
+<div class="shell">
+  <aside class="sidebar" aria-label="Study map">
+    <p class="side-label">Study map</p>
+    <nav class="side-nav">
+      <a href="index.html"><span class="num">00</span><span>Home</span><span class="tick"></span></a>
+      <a href="topic.html" aria-current="page"><span class="num">01</span><span>Reliability</span><span class="tick"></span></a>
+      <a href="reference.html"><span class="num">02</span><span>Reference</span><span class="tick"></span></a>
+      <a href="interview.html"><span class="num">03</span><span>Interview</span><span class="tick"></span></a>
+      <a href="bank-soal.html"><span class="num">04</span><span>Question bank</span><span class="tick"></span></a>
+    </nav>
+    <div class="side-block">
+      <p>Page rule</p>
+      <p class="small">One topic, one process, one table, one trap, and a source range.</p>
+    </div>
+  </aside>
+
+  <main class="main" id="main"><div class="content">
+    <p class="kicker">Topic 01 · Reliability</p>
+    <h1>Reliability <span class="thin">Basics</span></h1>
+    <p class="lead">A sample topic page. Replace the definitions and examples with source-derived content, but keep the reading order: purpose, essentials, process, details, traps, and self-check.</p>
+
+    <div class="callout ok">
+      <div class="callout-title">30-second essentials</div>
+      <ul class="list-tight">
+        <li><strong>SLO</strong> is a measurable reliability target.</li>
+        <li><strong>SLI</strong> is the metric used to measure the target.</li>
+        <li><strong>Error budget</strong> is the allowed unreliability derived from the SLO.</li>
+        <li><strong>RTO</strong> is recovery time; <strong>RPO</strong> is acceptable data loss.</li>
+      </ul>
+    </div>
+
+    <div class="process">
+      <div class="step"><span class="n">01</span><h4>Define</h4><p>Choose the user-visible behavior and a measurable target.</p></div>
+      <div class="step"><span class="n">02</span><h4>Measure</h4><p>Collect a reliable SLI over a fixed window.</p></div>
+      <div class="step"><span class="n">03</span><h4>Monitor</h4><p>Compare the error budget consumption with the threshold.</p></div>
+      <div class="step"><span class="n">04</span><h4>Respond</h4><p>Reduce risk, pause releases, or invest in reliability.</p></div>
+    </div>
+
+    <h2><span class="h2-num">01 · CONCEPTS</span>Four terms that are often mixed up</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Term</th><th>Meaning</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><strong>SLO</strong></td><td>Internal reliability target.</td><td>99.9% of requests succeed over 30 days.</td></tr>
+          <tr><td><strong>SLI</strong></td><td>The measurement behind the target.</td><td>Successful requests divided by valid requests.</td></tr>
+          <tr><td><strong>SLA</strong></td><td>Contractual commitment with a consequence.</td><td>Service credits if availability drops below 99.5%.</td></tr>
+          <tr><td><strong>Error budget</strong></td><td>Allowed unreliability from the SLO.</td><td>0.1% of the 30-day window.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout trap">
+      <div class="callout-title">Exam traps</div>
+      <ul class="list-tight">
+        <li>Do not treat SLO and SLA as synonyms. SLO is internal; SLA is contractual.</li>
+        <li>MTTR measures recovery speed, not failure frequency. MTBF measures the time between failures.</li>
+        <li>RTO is time to restore. RPO is acceptable data loss, measured in time.</li>
+      </ul>
+    </div>
+
+    <h2><span class="h2-num">02 · SELF-CHECK</span>Answer without looking</h2>
+    <details>
+      <summary>Why is an error budget useful?</summary>
+      <div class="details-body"><p>It turns reliability into a budget. Teams can spend it on change, or slow down when the budget is exhausted. It balances delivery speed with user trust.</p></div>
+    </details>
+    <details>
+      <summary>What is the difference between RTO and RPO?</summary>
+      <div class="details-body"><p>RTO is the maximum acceptable recovery time. RPO is the maximum acceptable amount of data loss, expressed as time. A short RPO requires frequent backups or replication.</p></div>
+    </details>
+
+    <div class="source-note">
+      <span class="label">Source</span>
+      <span class="tiny">Replace with the actual slide, page, or timestamp range.</span>
+    </div>
+
+    <nav class="page-nav" aria-label="Page navigation">
+      <a href="index.html"><span class="pn-label">Previous</span><span class="pn-title">← Home</span></a>
+      <a class="next" href="reference.html"><span class="pn-label">Next</span><span class="pn-title">Reference →</span></a>
+    </nav>
+  </div></main>
+</div>
+
+<footer class="site-footer">
+  <span>Study Pack Builder · sample topic.</span>
+  <span>Replace sample content with source-derived material.</span>
+</footer>
+<button class="to-top" data-to-top aria-label="Back to top">↑</button>
+<script src="assets/site.js"></script>
+</body>
+</html>

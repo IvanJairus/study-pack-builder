@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Question Bank · Study Pack Builder</title>
+<meta name="description" content="Sample interactive question bank for the Study Pack Builder template.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="quiz" data-theme="blue">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="progress-rail"><span></span></div>
+
+<header class="topbar">
+  <a class="brand" href="index.html">
+    <span class="brand-tile">SP</span>
+    <span class="brand-name">Study Pack<span class="brand-sub">Builder · template</span></span>
+  </a>
+  <nav class="topnav" aria-label="Main navigation">
+    <a href="index.html">Home</a>
+    <a href="topic.html">Topic</a>
+    <a href="reference.html">Reference</a>
+    <a href="interview.html">Interview</a>
+    <a class="nav-cta" href="bank-soal.html" aria-current="page">Question bank</a>
+  </nav>
+  <button class="menu-btn" data-menu-btn aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</header>
+<div class="mobile-menu" data-mobile-menu>
+  <a href="index.html"><span>Home</span><span>HOME</span></a>
+  <a href="topic.html"><span>Topic</span><span>TOPIC</span></a>
+  <a href="reference.html"><span>Reference</span><span>REFERENCE</span></a>
+  <a href="interview.html"><span>Interview</span><span>INTERVIEW</span></a>
+  <a href="bank-soal.html"><span>Question bank</span><span>QUIZ</span></a>
+</div>
+
+<div class="shell">
+  <aside class="sidebar" aria-label="Study map">
+    <p class="side-label">Study map</p>
+    <nav class="side-nav">
+      <a href="index.html"><span class="num">00</span><span>Home</span><span class="tick"></span></a>
+      <a href="topic.html"><span class="num">01</span><span>Reliability</span><span class="tick"></span></a>
+      <a href="reference.html"><span class="num">02</span><span>Reference</span><span class="tick"></span></a>
+      <a href="interview.html"><span class="num">03</span><span>Interview</span><span class="tick"></span></a>
+      <a href="bank-soal.html" aria-current="page"><span class="num">04</span><span>Question bank</span><span class="tick"></span></a>
+    </nav>
+    <div class="side-block">
+      <p>Data file</p>
+      <p class="small">Replace <code>assets/quiz-data.js</code>. Keep the schema: id, topic, question, options, answer, explanation, trap.</p>
+    </div>
+  </aside>
+
+  <main class="main" id="main"><div class="content">
+    <p class="kicker">Practice · sample bank</p>
+    <h1>Question <span class="thin">Bank</span></h1>
+    <p class="lead">Five sample questions. Replace this file with the deduplicated bank from your source material. The quiz engine is already wired.</p>
+    <div class="stat-grid">
+      <div class="stat"><b>5</b><span>sample questions</span></div>
+      <div class="stat"><b>2</b><span>topics</span></div>
+      <div class="stat"><b>1</b><span>quiz engine</span></div>
+      <div class="stat"><b>0</b><span>external calls</span></div>
+    </div>
+
+    <div class="callout ok">
+      <div class="callout-title">How to use</div>
+      <ul class="list-tight">
+        <li>Pick a topic or leave it on all.</li>
+        <li>Select one option, then check the answer.</li>
+        <li>Read the explanation and trap before moving on.</li>
+        <li>Use list mode for a quick review or print.</li>
+      </ul>
+    </div>
+
+    <div class="quiz-shell" data-quiz>
+      <div class="quiz-toolbar">
+        <div data-quiz-filters style="display:flex;flex-wrap:wrap;gap:8px"></div>
+        <input class="quiz-search" type="search" placeholder="Search questions or options..." data-quiz-search aria-label="Search questions">
+        <div class="quiz-actions">
+          <button class="btn small secondary" data-quiz-shuffle>Shuffle</button>
+          <button class="btn small secondary" data-quiz-list>List mode</button>
+          <button class="btn small secondary" data-quiz-print>Print</button>
+          <button class="btn small ghost" data-quiz-reset>Reset</button>
+        </div>
+      </div>
+      <div class="quiz-status" data-quiz-status></div>
+      <div data-quiz-practice><div data-quiz-card></div></div>
+      <div class="quiz-list hide" data-quiz-list-view></div>
+    </div>
+
+    <div class="source-note">
+      <span class="label">Source</span>
+      <span class="tiny">Replace the sample data with your validated question JSON.</span>
+    </div>
+
+    <nav class="page-nav" aria-label="Page navigation">
+      <a href="interview.html"><span class="pn-label">Previous</span><span class="pn-title">← Interview</span></a>
+      <a class="next" href="reference.html"><span class="pn-label">Next</span><span class="pn-title">Reference →</span></a>
+    </nav>
+  </div></main>
+</div>
+
+<footer class="site-footer">
+  <span>Study Pack Builder · sample question bank.</span>
+  <span>Replace sample data with validated questions.</span>
+</footer>
+<button class="to-top" data-to-top aria-label="Back to top">↑</button>
+<script src="assets/site.js"></script>
+<script src="assets/quiz-data.js"></script>
+<script src="assets/quiz.js"></script>
+</body>
+</html>

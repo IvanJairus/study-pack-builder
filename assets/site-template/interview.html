@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interview Guide · Study Pack Builder</title>
+<meta name="description" content="Sample interview guide for the Study Pack Builder template.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="interview" data-theme="rose">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="progress-rail"><span></span></div>
+
+<header class="topbar">
+  <a class="brand" href="index.html">
+    <span class="brand-tile">SP</span>
+    <span class="brand-name">Study Pack<span class="brand-sub">Builder · template</span></span>
+  </a>
+  <nav class="topnav" aria-label="Main navigation">
+    <a href="index.html">Home</a>
+    <a href="topic.html">Topic</a>
+    <a href="reference.html">Reference</a>
+    <a href="interview.html" aria-current="page">Interview</a>
+    <a class="nav-cta" href="bank-soal.html">Question bank</a>
+  </nav>
+  <button class="menu-btn" data-menu-btn aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</header>
+<div class="mobile-menu" data-mobile-menu>
+  <a href="index.html"><span>Home</span><span>HOME</span></a>
+  <a href="topic.html"><span>Topic</span><span>TOPIC</span></a>
+  <a href="reference.html"><span>Reference</span><span>REFERENCE</span></a>
+  <a href="interview.html"><span>Interview</span><span>INTERVIEW</span></a>
+  <a href="bank-soal.html"><span>Question bank</span><span>QUIZ</span></a>
+</div>
+
+<div class="shell">
+  <aside class="sidebar" aria-label="Study map">
+    <p class="side-label">Study map</p>
+    <nav class="side-nav">
+      <a href="index.html"><span class="num">00</span><span>Home</span><span class="tick"></span></a>
+      <a href="topic.html"><span class="num">01</span><span>Reliability</span><span class="tick"></span></a>
+      <a href="reference.html"><span class="num">02</span><span>Reference</span><span class="tick"></span></a>
+      <a href="interview.html" aria-current="page"><span class="num">03</span><span>Interview</span><span class="tick"></span></a>
+      <a href="bank-soal.html"><span class="num">04</span><span>Question bank</span><span class="tick"></span></a>
+    </nav>
+    <div class="side-block">
+      <p>Answer rule</p>
+      <p class="small">Context, risk, analysis, action, result. One real example beats ten definitions.</p>
+    </div>
+  </aside>
+
+  <main class="main" id="main"><div class="content">
+    <p class="kicker">Interview · sample guide</p>
+    <h1>Interview <span class="thin">Guide</span></h1>
+    <p class="lead">A sample interview page. Replace the questions and model answers with material derived from the source and the instructor's audio notes.</p>
+
+    <div class="three-col">
+      <div class="card"><div class="card-kicker">Knowledge</div><h3>Understands concepts</h3><p>Can explain terms and models in plain language, without reading a script.</p></div>
+      <div class="card"><div class="card-kicker">Skill</div><h3>Can apply them</h3><p>Can describe how to identify, measure, monitor, and report a real risk.</p></div>
+      <div class="card"><div class="card-kicker">Attitude</div><h3>Behaves well</h3><p>Honest, accountable, willing to escalate, and focused on learning from incidents.</p></div>
+    </div>
+
+    <h2><span class="h2-num">01 · STRUCTURE</span>Five-step answer</h2>
+    <div class="process five">
+      <div class="step"><span class="n">01</span><h4>Context</h4><p>Role, system, and situation in one sentence.</p></div>
+      <div class="step"><span class="n">02</span><h4>Risk</h4><p>Name the risk and why it matters.</p></div>
+      <div class="step"><span class="n">03</span><h4>Analysis</h4><p>Explain impact, likelihood, and constraints.</p></div>
+      <div class="step"><span class="n">04</span><h4>Action</h4><p>Describe the control, escalation, or tradeoff.</p></div>
+      <div class="step"><span class="n">05</span><h4>Result</h4><p>State the outcome or the lesson learned.</p></div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-label">Question 01</div>
+      <h3>Tell me about a reliability incident you handled.</h3>
+      <div class="model-answer">
+        <p>“A deployment increased error rates for one service. I confirmed the impact, rolled back, and told the incident channel what we knew and what we did not know yet. We then traced the cause to a configuration change, added a pre-deploy check, and documented the rollback. The lesson was to treat configuration changes with the same review as code.”</p>
+      </div>
+      <p class="small"><strong>Why it works:</strong> it shows ownership, clear communication, a concrete control, and a learning loop.</p>
+    </div>
+
+    <div class="q-block">
+      <div class="q-label">Question 02</div>
+      <h3>How do you balance reliability with delivery speed?</h3>
+      <div class="model-answer">
+        <p>“I use an error budget. If the service is within its target, we can keep shipping. If the budget is exhausted, we pause risky changes and spend time on reliability. The tradeoff is explicit, so the team argues about evidence rather than opinions.”</p>
+      </div>
+      <p class="small"><strong>Why it works:</strong> it names a mechanism, a decision rule, and the tradeoff.</p>
+    </div>
+
+    <div class="callout trap">
+      <div class="callout-title">Red flags</div>
+      <ul class="list-tight">
+        <li>Answering with definitions only, without an example.</li>
+        <li>Blaming people or systems without explaining your action.</li>
+        <li>Claiming you have never seen an incident.</li>
+        <li>Avoiding the tradeoff between speed and reliability.</li>
+      </ul>
+    </div>
+
+    <div class="source-note">
+      <span class="label">Source</span>
+      <span class="tiny">Replace with the audio timestamp or instructor note that supports each answer.</span>
+    </div>
+
+    <nav class="page-nav" aria-label="Page navigation">
+      <a href="reference.html"><span class="pn-label">Previous</span><span class="pn-title">← Reference</span></a>
+      <a class="next" href="bank-soal.html"><span class="pn-label">Next</span><span class="pn-title">Question bank →</span></a>
+    </nav>
+  </div></main>
+</div>
+
+<footer class="site-footer">
+  <span>Study Pack Builder · sample interview guide.</span>
+  <span>Replace sample answers with source-derived notes.</span>
+</footer>
+<button class="to-top" data-to-top aria-label="Back to top">↑</button>
+<script src="assets/site.js"></script>
+</body>
+</html>

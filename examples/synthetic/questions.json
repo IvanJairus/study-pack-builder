@@ -1,0 +1,67 @@
+[
+  {
+    "id": "S1-01",
+    "stem": "What is a Service Level Objective?",
+    "options": {
+      "A": "A measurable reliability target",
+      "B": "A legal contract",
+      "C": "A monitoring dashboard",
+      "D": "A deployment pipeline"
+    },
+    "answer": "A",
+    "source": "set1",
+    "topic": "Foundation"
+  },
+  {
+    "id": "S2-01",
+    "stem": "What is a Service Level Objective ?",
+    "options": {
+      "A": "A measurable reliability target",
+      "B": "A legal contract",
+      "C": "A monitoring dashboard",
+      "D": "A deployment pipeline"
+    },
+    "answer": "A",
+    "source": "set2",
+    "topic": "Foundation"
+  },
+  {
+    "id": "S1-02",
+    "stem": "What does MTTR measure?",
+    "options": {
+      "A": "Mean time to recover from a failure",
+      "B": "Mean time between releases",
+      "C": "Maximum throughput",
+      "D": "Minimum reproduction time"
+    },
+    "answer": "A",
+    "source": "set1",
+    "topic": "Reliability"
+  },
+  {
+    "id": "S3-01",
+    "stem": "What does MTTR measure?",
+    "options": {
+      "A": "Mean time to recover from a failure",
+      "B": "Mean time between releases",
+      "C": "Maximum throughput",
+      "D": "Minimum reproduction time"
+    },
+    "answer": "A",
+    "source": "set3",
+    "topic": "Reliability"
+  },
+  {
+    "id": "S1-03",
+    "stem": "What is an error budget?",
+    "options": {
+      "A": "Allowed unreliability derived from the SLO",
+      "B": "A billing limit",
+      "C": "A staff quota",
+      "D": "A backup period"
+    },
+    "answer": "A",
+    "source": "set1",
+    "topic": "Reliability"
+  }
+]
