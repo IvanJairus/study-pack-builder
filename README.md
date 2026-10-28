@@ -176,6 +176,7 @@ study-pack/
     ├── project-brief.json
     ├── source-inventory.json
     ├── coverage-map.md
+    ├── coverage.json
     └── transcripts/
 ```
 
@@ -224,9 +225,9 @@ Every pack has a layered study map. Edit `assets/map-data.js`:
 - Connections between categories, plus one value per process step.
 - A route that moves from reading to practice to interview.
 
-`map.html` renders the full map from the outside in. The outer layer shows categories and magnitude. The middle layer opens big ideas. The inner layer reveals concepts, formulas, and traps like a spoiler. `index.html` renders a compact version. The strict gate checks layers, big ideas, concepts, weights, pages, links, matrix cells, question counts, and every topic page.
+`map.html` renders the full map from the outside in. The outer layer shows categories and magnitude. The middle layer opens big ideas. The inner layer reveals concepts, formulas, and traps like a spoiler. `index.html` renders a compact version. The strict gate checks layers, big ideas, concepts, weights, pages, links, matrix cells, question counts, every topic page, and the coverage audit.
 
-The brief must be confirmed before extraction. The gate also checks the source inventory, abbreviations, transcripts, requested outputs, coverage map, quiz schema, links, and artifacts:
+The brief must be confirmed before extraction. The gate also checks the source inventory, abbreviations, transcripts, requested outputs, coverage manifest, quiz schema, links, and artifacts:
 
 ```bash
 python scripts/check_site.py \
@@ -270,6 +271,8 @@ The text formats TXT, Markdown, HTML, DOCX, EPUB, CSV, TSV, and XLSX use only th
 | `scripts/doctor.py` | Preflight tools and exact install commands |
 | `scripts/source_inventory.py` | SSOT, roles, hashes, support status |
 | `scripts/confirm_brief.py` | Record explicit user confirmation in the brief |
+| `scripts/build_coverage.py` | Build a range-level coverage manifest |
+| `scripts/check_coverage.py` | Validate source and raw-question coverage |
 | `scripts/normalize_source.py` | Mixed formats to JSONL with source refs and a summary |
 | `scripts/extract_pdf.py` | Text per page and TOC |
 | `scripts/extract_questions.py` | Questions and highlighted answers from PDF, A to H |
@@ -281,7 +284,7 @@ The text formats TXT, Markdown, HTML, DOCX, EPUB, CSV, TSV, and XLSX use only th
 | `scripts/tts_say.py` | macOS TTS and duration measurement |
 | `scripts/make_slides.py` | White-theme 1920x1080 slides |
 | `scripts/render_video.py` | Segments, intro/outro, concat, H.264/AAC |
-| `scripts/check_site.py` | Links, quiz, PDF, map, structure, brief, inventory, and artifact gate |
+| `scripts/check_site.py` | Links, quiz, PDF, map, structure, brief, inventory, coverage, and artifact gate |
 
 Example checks:
 
@@ -298,7 +301,7 @@ Run the repository tests:
 npm test
 ```
 
-The test suite covers the four question types, type-aware deduplication, answer conflicts, XML safety, normalization for TXT, Markdown, HTML, DOCX, EPUB, CSV, and XLSX, plus the strict delivery gate, layered map validation, inventory roles, abbreviation sync, and brief confirmation.
+The test suite covers the four question types, type-aware deduplication, answer conflicts, XML safety, normalization for TXT, Markdown, HTML, DOCX, EPUB, CSV, and XLSX, plus the strict delivery gate, layered map validation, inventory roles, abbreviation sync, brief confirmation, and coverage audit.
 
 ## Guardrails
 

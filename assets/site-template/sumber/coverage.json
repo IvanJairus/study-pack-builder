@@ -1,0 +1,77 @@
+{
+  "generated_at": "2026-10-28T00:00:00+00:00",
+  "level": "range",
+  "source_inventory": "sumber/source-inventory.json",
+  "units": [
+    {
+      "source": "source.md",
+      "ref": "line:1-8",
+      "kind": "line_range",
+      "from": 1,
+      "to": 8,
+      "page": "foundation.html",
+      "status": "covered"
+    },
+    {
+      "source": "source.md",
+      "ref": "line:9-14",
+      "kind": "line_range",
+      "from": 9,
+      "to": 14,
+      "page": "topic.html",
+      "status": "covered"
+    },
+    {
+      "source": "source.md",
+      "ref": "line:15-21",
+      "kind": "line_range",
+      "from": 15,
+      "to": 21,
+      "page": "bank-soal.html",
+      "status": "covered"
+    },
+    {
+      "source": "source.md",
+      "ref": "derived:interview",
+      "kind": "derived",
+      "page": "interview.html",
+      "status": "covered",
+      "reason": "Interview framing derived from the recovery section."
+    }
+  ],
+  "questions": {
+    "raw_total": 6,
+    "unique_total": 5,
+    "raw_ids": [
+      "Sample 1",
+      "Sample 2",
+      "Sample 3a",
+      "Sample 3b",
+      "Sample 4",
+      "Sample 5"
+    ],
+    "mapped_ids": [
+      "Sample 1",
+      "Sample 2",
+      "Sample 3a",
+      "Sample 3b",
+      "Sample 4",
+      "Sample 5"
+    ],
+    "missing_ids": [],
+    "duplicate_ids": []
+  },
+  "summary": {
+    "total": 4,
+    "covered": 4,
+    "non_content": 0,
+    "unresolved": 0
+  },
+  "range_totals": [
+    {
+      "source": "source.md",
+      "kind": "line_range",
+      "total": 21
+    }
+  ]
+}

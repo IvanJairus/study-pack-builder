@@ -24,7 +24,8 @@ If the command fails, fix the pack. Do not report completion.
 |---|---|
 | `sumber/project-brief.json` | Choices and explicit confirmation |
 | `sumber/source-inventory.json` | SSOT, roles, hashes, support status |
-| `sumber/coverage-map.md` | Source ref to output page |
+| `sumber/coverage-map.md` | Human-readable source ref to output page |
+| `sumber/coverage.json` | Machine-readable coverage audit |
 | `map.html` | Full study map |
 | `assets/map-data.js` | Layers, category magnitude, big ideas, concepts, matrix, route, relationships |
 | `assets/map.js` | Renders map views |
@@ -150,6 +151,80 @@ Rules:
 
 The map is not decoration. It is the spoiler: the learner reads the outer layer, opens a big idea, then reads the concepts only when needed.
 
+## Coverage audit
+
+`sumber/coverage.json` is the machine-readable audit. `coverage-map.md` is the readable companion.
+
+Build a range-level manifest from the map:
+
+```bash
+python scripts/build_coverage.py \
+  --out sumber/coverage.json \
+  --map assets/map-data.js \
+  --quiz assets/quiz-data.js \
+  --source "source deck" \
+  --question-source "question bank" \
+  --audio "session-1.m4a" --audio "session-2.m4a"
+```
+
+Validate it:
+
+```bash
+python scripts/check_coverage.py \
+  --coverage sumber/coverage.json \
+  --root . \
+  --quiz assets/quiz-data.js
+```
+
+For the strongest audit, add `--normalized working/normalized.jsonl` and set `level` to `unit`. Then every normalized record must appear exactly once in the manifest.
+
+Schema:
+
+```json
+{
+  "level": "range",
+  "source_inventory": "sumber/source-inventory.json",
+  "range_totals": [
+    {"source": "deck.pptx", "kind": "slide_range", "total": 286}
+  ],
+  "units": [
+    {
+      "source": "deck.pptx",
+      "ref": "Slide 1-37",
+      "kind": "slide_range",
+      "from": 1,
+      "to": 37,
+      "page": "foundation.html",
+      "status": "covered"
+    }
+  ],
+  "questions": {
+    "raw_total": 120,
+    "unique_total": 71,
+    "raw_ids": ["S1-03"],
+    "mapped_ids": ["S1-03"],
+    "missing_ids": [],
+    "duplicate_ids": []
+  },
+  "summary": {"total": 1, "covered": 1, "non_content": 0, "unresolved": 0}
+}
+```
+
+Rules:
+
+- Every unit status is `covered`, `non-content`, or `unresolved`.
+- `covered` needs a page that exists.
+- `non-content` needs a reason.
+- `unresolved` is a delivery failure.
+- Range units must not overlap or leave gaps.
+- Every raw question ID appears exactly once in the final quiz.
+- Every range family has a `range_totals` entry. Its ranges start at 1, have no gaps or overlaps, and end at the declared total.
+- Every requested output and the source inventory must exist.
+- A range manifest proves every declared range, not every individual unit. Use unit-level coverage when normalized JSONL exists.
+- If `build_coverage.py` is run without `--raw-questions`, raw IDs are taken from the quiz sources. That checks internal uniqueness, not an external extraction. Pass `--raw-questions` for an external audit.
+
+The gate runs the same validator with `check_site.py --brief ... --strict`.
+
 ## Topic page structure
 
 Every page listed in the map must contain:
@@ -190,7 +265,7 @@ The generated `assets/abbreviations.js` is loaded before `site.js` on every page
 | Map | Layers, categories, magnitude, big ideas, concepts, connections, pages, links |
 | Structure | Core blocks and source range on every topic page |
 | Abbreviations | Generated file matches the table and is used by site.js |
-| Coverage | `sumber/coverage-map.md` exists and has a table |
+| Coverage | coverage.json validates; ranges have no gaps; raw questions mapped once |
 | Transcripts | Present when the brief requests them |
 | Quiz | Schema passes with 0 errors |
 | Links | 0 broken relative links |

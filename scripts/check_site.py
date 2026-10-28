@@ -14,6 +14,7 @@ from datetime import datetime
 from pathlib import Path
 
 from build_abbreviations import read_rows as read_abbr_rows, render as render_abbr
+from check_coverage import validate_coverage
 from quiz_schema import load_questions_file, validate_questions
 
 SKIP_PREFIXES = ("http://", "https://", "#", "mailto:", "tel:", "javascript:", "data:")
@@ -171,6 +172,7 @@ def check_brief(path: Path, root: Path, quiz_stats):
         if transcript_dir.exists() and not list(transcript_dir.glob("*.srt")) and not list(transcript_dir.glob("*.txt")):
             errors.append("transcripts are enabled but sumber/transcripts has no .srt or .txt file")
     require("coverage map", "sumber/coverage-map.md", True)
+    require("coverage audit", "sumber/coverage.json", True)
     require("source inventory", "sumber/source-inventory.json", True)
     coverage = root / "sumber" / "coverage-map.md"
     if coverage.exists() and "|" not in coverage.read_text(encoding="utf-8", errors="ignore"):
@@ -490,6 +492,8 @@ def main() -> int:
     ap.add_argument("--brief", type=Path, default=None, help="Enable delivery gates for a study pack")
     ap.add_argument("--inventory", type=Path, default=None, help="Default: <root>/sumber/source-inventory.json")
     ap.add_argument("--min-topics", type=int, default=2, help="Minimum map categories for this check")
+    ap.add_argument("--coverage", type=Path, default=None, help="Default: <root>/sumber/coverage.json")
+    ap.add_argument("--normalized", type=Path, default=None, help="Optional normalized JSONL for unit-level coverage comparison")
     ap.add_argument("--strict", action="store_true", help="Treat warnings as failures")
     args = ap.parse_args()
 
@@ -546,6 +550,17 @@ def main() -> int:
         sections.append(("map", errors, warnings))
         errors, warnings = check_structure(args.root, map_data)
         sections.append(("structure", errors, warnings))
+        coverage_path = args.coverage or (args.root / "sumber" / "coverage.json")
+        coverage_errors, coverage_warnings, coverage_stats = validate_coverage(
+            coverage_path, args.root, questions, args.normalized
+        )
+        sections.append(("coverage", coverage_errors, coverage_warnings))
+        print(
+            f"coverage: {coverage_stats.get('total', 0)} units, "
+            f"{coverage_stats.get('covered', 0)} covered, "
+            f"{coverage_stats.get('non-content', 0)} non-content, "
+            f"{coverage_stats.get('unresolved', 0)} unresolved"
+        )
         errors, warnings = check_abbreviations(args.root)
         sections.append(("abbreviations", errors, warnings))
         for name, errors, warnings in sections:

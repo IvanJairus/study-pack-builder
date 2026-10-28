@@ -1,6 +1,6 @@
 {
   "name": "study-pack-builder",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Install the Study Pack Builder agent skill: layered concept map with spoilers, doctor and source inventory, structured topic gates, flexible quiz, printable PDF, narrated video, and strict delivery verification.",
   "bin": {
     "study-pack-builder": "bin/cli.js"
@@ -38,6 +38,6 @@
     "node": ">=18"
   },
   "scripts": {
-    "test": "python3 scripts/test_quiz_schema.py && python3 scripts/test_normalize_source.py && python3 scripts/test_delivery.py && python3 scripts/build_abbreviations.py --check && python3 scripts/quiz_schema.py examples/synthetic/questions-flexible.json && node bin/cli.js --dry-run --target /tmp/study-pack-builder-dry-run"
+    "test": "python3 scripts/test_quiz_schema.py && python3 scripts/test_normalize_source.py && python3 scripts/test_delivery.py && python3 scripts/test_coverage.py && python3 scripts/build_abbreviations.py --check && python3 scripts/quiz_schema.py examples/synthetic/questions-flexible.json && node bin/cli.js --dry-run --target /tmp/study-pack-builder-dry-run"
   }
 }

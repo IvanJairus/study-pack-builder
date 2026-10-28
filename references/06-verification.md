@@ -6,9 +6,14 @@ Do not claim completion from a successful build alone. Verify the state, not the
 
 ## Source coverage
 
-- Every slide, page, paragraph, line range, and table row appears in the coverage map or is marked as non-content.
+- Every slide, page, paragraph, line range, and table row appears in `coverage.json` as covered, non-content, or unresolved.
+- Every raw question ID appears exactly once in the final quiz.
 - Every audio session has a transcript or a documented reason for omission.
 - Every output page has a source range or normalized ref.
+
+```bash
+python scripts/check_coverage.py --coverage output/sumber/coverage.json --root output --quiz output/assets/quiz-data.js
+```
 
 ## Delivery gate
 
@@ -79,7 +84,7 @@ Check:
 | Area | Required evidence |
 |---|---|
 | Brief | confirmed_at and confirmed_by present; requested outputs exist |
-| Source | inventory SSOT and coverage map complete |
+| Source | inventory SSOT, coverage map, and coverage.json complete |
 | Questions | raw and unique counts match the cluster output; every ID mapped once |
 | Answers | 0 missing, 0 not in options, 0 invalid type |
 | Map | layers, magnitude, big ideas, concepts, connections; weights sum to 100; pages exist |

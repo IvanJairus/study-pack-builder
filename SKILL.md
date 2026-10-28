@@ -161,9 +161,9 @@ It checks:
 - Brief confirmation and every requested output.
 - Source inventory, SSOT, roles, and hashes.
 - Map layers, categories, magnitude, big ideas, concepts, connections, pages, and links.
-- Core and recommended learning blocks on every topic page.
+- Core learning blocks and source range on every topic page.
 - Abbreviation table and generated dictionary in sync.
-- Coverage map, transcripts, and video when requested.
+- Coverage manifest: every unit mapped, non-content, or unresolved; every raw question mapped once.
 - Quiz schema, links, PDF, and artifacts.
 
 Also open the site: all four quiz types, filters, retry, list mode, 390 px and 1440 px, light and dark themes, and no console errors. A green gate still needs a human read.
@@ -201,6 +201,7 @@ study-pack/
     ├── project-brief.json
     ├── source-inventory.json
     ├── coverage-map.md
+    ├── coverage.json
     └── transcripts/
 ```
 
@@ -215,7 +216,7 @@ study-pack/
 | Map | Layers, categories, magnitude, big ideas, concepts, connections, weights sum to 100, all pages exist |
 | Structure | Core blocks and source range on every topic page |
 | Abbreviations | Generated file matches the reference table and is used by site.js |
-| Coverage | `sumber/coverage-map.md` exists and has a table |
+| Coverage | `sumber/coverage.json` validates; every unit covered, non-content, or unresolved; every raw question mapped once |
 | Question coverage | Every raw question ID appears once in a cluster |
 | Question schema | `quiz_schema.py` reports 0 errors; warnings are reviewed |
 | Answer integrity | Answer matches the type; options are valid; no blank explanation or trap |
@@ -230,6 +231,8 @@ study-pack/
 
 - `scripts/doctor.py`: preflight tools and exact install commands.
 - `scripts/source_inventory.py`: SSOT, roles, hashes, support status.
+- `scripts/build_coverage.py`: build a range-level coverage manifest.
+- `scripts/check_coverage.py`: validate unit coverage and raw question mapping.
 - `scripts/confirm_brief.py`: write the user's confirmation into the brief.
 - `scripts/extract_pdf.py`: text per page and TOC.
 - `scripts/normalize_source.py`: mixed formats to JSONL with line, paragraph, and row refs.

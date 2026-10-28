@@ -11,6 +11,7 @@ A correct run on this synthetic example should produce:
 - Each unique question has a valid answer for its type, an explanation, and a trap.
 - `questions-flexible.json` validates with single choice, multiple choice, true or false, and short answer examples, including a five-option multiple choice and a three-option single choice.
 - A layered study map with categories, magnitude, big ideas, concepts, source ranges, question counts, connections, and a route.
-- A coverage map that links the synthetic source sections to the site pages.
+- A coverage map and coverage audit that link every synthetic source range to a page.
+- A question audit with 6 raw source IDs, 5 unique questions, and 0 missing IDs.
 - A generated abbreviation dictionary that matches the visible reference table.
 - `normalize_source.py` turns text sources into JSONL with line or paragraph refs, and spreadsheet rows keep their physical row numbers.
