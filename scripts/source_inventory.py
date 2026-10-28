@@ -63,9 +63,17 @@ def sha256_file(path):
     return digest.hexdigest()
 
 
-def matches(path, patterns):
+def match_path(path, pattern):
     display = path.as_posix()
-    return any(fnmatch.fnmatch(display, pattern) or fnmatch.fnmatch(path.name, pattern) for pattern in patterns)
+    if fnmatch.fnmatch(display, pattern) or fnmatch.fnmatch(path.name, pattern):
+        return True
+    if "/" in pattern and not pattern.startswith("/"):
+        return fnmatch.fnmatch(display, f"*/{pattern}")
+    return False
+
+
+def matches(path, patterns):
+    return any(match_path(path, pattern) for pattern in patterns)
 
 
 def scan(paths):
@@ -113,7 +121,7 @@ def role_overrides(brief):
 def apply_role(path, overrides):
     role = default_role(path)
     for pattern, override in overrides:
-        if fnmatch.fnmatch(path.as_posix(), pattern) or fnmatch.fnmatch(path.name, pattern):
+        if match_path(path, pattern):
             role = override
     return role
 
