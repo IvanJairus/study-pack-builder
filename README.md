@@ -6,16 +6,16 @@ The source slides and PDFs are the authority. Audio is used for emphasis and adv
 
 ## Quick start
 
-Install the skill with npx:
+The installer detects which AI apps you already have and installs the skill into each one:
 
 ```bash
 npx github:IvanJairus/study-pack-builder
 ```
 
-Project-level install:
+Check what it sees first:
 
 ```bash
-npx github:IvanJairus/study-pack-builder --project
+npx github:IvanJairus/study-pack-builder --list
 ```
 
 The short form below requires the package to be published to npm. It is prepared but not published yet:
@@ -24,7 +24,25 @@ The short form below requires the package to be published to npm. It is prepared
 npx study-pack-builder
 ```
 
-Manual fallback:
+### Supported agents
+
+| Agent | Detected config | User-level install path |
+|---|---|---|
+| Qoder | `~/.qoder` | `~/.qoder/skills/study-pack-builder` |
+| Claude Code | `~/.claude` | `~/.claude/skills/study-pack-builder` |
+| Cursor | `~/.cursor` | `~/.cursor/skills/study-pack-builder` |
+| Antigravity | `~/.gemini/antigravity` | `~/.gemini/antigravity/skills/study-pack-builder` |
+| Codex | `~/.codex` | `~/.codex/skills/study-pack-builder` |
+
+Only detected apps are touched by default. If nothing is detected, the installer stops and explains the flags instead of guessing. WorkBuddy AI is detected only to print a manual note, because it has no documented skills folder.
+
+Project-level install writes into the config folders present in the current directory, for example `./.qoder/skills/study-pack-builder`:
+
+```bash
+npx github:IvanJairus/study-pack-builder --project
+```
+
+Manual fallback for any agent:
 
 ```bash
 git clone https://github.com/IvanJairus/study-pack-builder.git \
@@ -42,11 +60,16 @@ Installer options:
 
 | Option | Meaning |
 |---|---|
-| `--project` | Install to `./.qoder/skills/study-pack-builder` |
+| `--list` | Show detected agents and paths, then exit |
+| `--all` | Install to every supported agent path, even if not detected |
+| `--agent <ids>` | Install only to comma-separated ids, e.g. `claude,cursor` |
+| `--project` | Install to project-level config folders in the current directory |
 | `--target <path>` | Install to a custom directory |
 | `--force` | Back up an existing install and replace it |
 | `--dry-run` | Print the plan without writing |
 | `--help` | Show help |
+
+Existing installs are skipped unless `--force` is passed. A forced update moves the old copy to `~/.study-pack-builder/backups/<agent>-<timestamp>` before writing.
 
 ## Inputs
 

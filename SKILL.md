@@ -201,10 +201,16 @@ study-pack/
 
 ## Install
 
-Fast path with npx:
+Fast path with npx. It detects installed agents and writes the skill into each one:
 
 ```bash
 npx github:IvanJairus/study-pack-builder
+```
+
+Inspect detection first:
+
+```bash
+npx github:IvanJairus/study-pack-builder --list
 ```
 
 After the package is published to npm, the shorter form is:
@@ -213,13 +219,24 @@ After the package is published to npm, the shorter form is:
 npx study-pack-builder
 ```
 
+Supported agents and user-level paths:
+
+| Agent | Install path |
+|---|---|
+| Qoder | `~/.qoder/skills/study-pack-builder` |
+| Claude Code | `~/.claude/skills/study-pack-builder` |
+| Cursor | `~/.cursor/skills/study-pack-builder` |
+| Antigravity | `~/.gemini/antigravity/skills/study-pack-builder` |
+| Codex | `~/.codex/skills/study-pack-builder` |
+
 Project-level install:
 
 ```bash
 npx github:IvanJairus/study-pack-builder --project
 ```
 
-Installer options: `--target <path>`, `--force`, `--dry-run`.
+Installer options: `--list`, `--all`, `--agent <ids>`, `--project`, `--target <path>`, `--force`, `--dry-run`.
+Existing installs are skipped unless `--force` is used; forced updates back up to `~/.study-pack-builder/backups/`.
 
 Manual clone as a fallback:
 
