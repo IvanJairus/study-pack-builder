@@ -1,0 +1,37 @@
+{
+  "goal": "exam preparation",
+  "sources": "./sources",
+  "output": "./study-pack",
+  "language": "id",
+  "exam": {
+    "questions": 30,
+    "minutes": 45,
+    "interview": true
+  },
+  "outputs": {
+    "website": true,
+    "quiz": true,
+    "print_pdf": true,
+    "video": false,
+    "interview_guide": true,
+    "transcripts": true
+  },
+  "theme": {
+    "mode": "light",
+    "accent": "green",
+    "offline": true
+  },
+  "video": {
+    "enabled": false,
+    "minutes": 5,
+    "voice": "Damayanti",
+    "language": "id",
+    "subtitles": true
+  },
+  "audio": {
+    "transcribe": true,
+    "notes": "exam advice only"
+  },
+  "ignore": ["diagrams", "legacy HTML"],
+  "constraints": ["no proprietary content in public examples"]
+}

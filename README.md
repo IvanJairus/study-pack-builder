@@ -81,9 +81,27 @@ Example prompt:
 ```text
 Use study-pack-builder on ./sources. Write the output to ./study-pack.
 The exam has 30 multiple-choice questions plus a 30-minute interview.
-Use Indonesian. Build a 5-minute narrated video. Ignore diagrams and old HTML.
-Make the site offline and use a white theme.
+Use Indonesian. Theme: dark. Skip the video for now.
+Build the quiz and the print PDF. Ignore diagrams and old HTML.
 ```
+
+## Project brief
+
+The skill asks for a short brief before extraction. Start from [assets/project-brief.example.json](assets/project-brief.example.json).
+
+| Choice | Default |
+|---|---|
+| `theme.mode` | `light`, or `dark` / `system` |
+| `outputs.website` | `true` |
+| `outputs.quiz` | `true` |
+| `outputs.print_pdf` | `true` |
+| `outputs.video` | `false` unless requested |
+| `video.minutes` | `5` when enabled |
+| `outputs.interview_guide` | `true` when the exam has an interview |
+| `outputs.transcripts` | `true` when audio is transcribed |
+| `language` | Source language |
+
+If video is off, the agent skips scripting, TTS, slides, and rendering. If dark is selected, the template uses `data-mode="dark"` and the top bar still offers a light/dark toggle.
 
 ## Outputs
 
@@ -123,7 +141,7 @@ What each output is for:
 | `bank-soal.html` | Interactive quiz with filters, search, shuffle, answer reveal, explanations, and retry-wrong |
 | `question-bank.pdf` | Printable question bank with keys and explanations |
 | `interview.html` | Interview questions, model answers, and instructor advice |
-| `video/overview.mp4` | Short narrated overview that points to the site for detail |
+| `video/overview.mp4` | Short narrated overview, only when requested |
 | `sumber/coverage-map.md` | Source-to-page coverage table |
 | `sumber/transcripts/` | Machine-generated transcripts with timestamps |
 
@@ -190,7 +208,10 @@ study-pack-builder/
 ├── bin/cli.js
 ├── scripts/
 ├── references/
+│   ├── 01-source-extraction.md ... 07-guardrails.md
+│   └── 08-project-brief.md
 ├── assets/
+│   ├── project-brief.example.json
 │   ├── site-template/
 │   └── video-template/
 └── examples/

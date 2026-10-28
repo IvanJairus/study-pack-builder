@@ -8,6 +8,27 @@
     });
   }
 
+  const themeButton = document.querySelector('[data-theme-toggle]');
+  const modeKey = 'study-pack-mode';
+  try {
+    const savedMode = localStorage.getItem(modeKey);
+    if (savedMode === 'light' || savedMode === 'dark') document.body.dataset.mode = savedMode;
+  } catch {}
+  if (themeButton) {
+    const syncTheme = () => {
+      const dark = document.body.dataset.mode === 'dark';
+      themeButton.textContent = dark ? '☀' : '☾';
+      themeButton.title = dark ? 'Switch to light theme' : 'Switch to dark theme';
+      themeButton.setAttribute('aria-label', themeButton.title);
+    };
+    syncTheme();
+    themeButton.addEventListener('click', () => {
+      document.body.dataset.mode = document.body.dataset.mode === 'dark' ? 'light' : 'dark';
+      try { localStorage.setItem(modeKey, document.body.dataset.mode); } catch {}
+      syncTheme();
+    });
+  }
+
   const rail = document.querySelector('.progress-rail span');
   const updateRail = () => {
     if (!rail) return;

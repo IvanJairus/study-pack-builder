@@ -26,17 +26,20 @@ Do not use for a single-document summary, a generic essay, or publishing proprie
 4. Preserve traceability: source file, page/slide range, timestamp, or question ID.
 5. Verify before delivery. A green build is not proof that the study pack is correct or usable.
 
-## Inputs to collect
+## Project brief
 
-Ask at most three questions. Otherwise use sensible defaults.
+Read `references/08-project-brief.md` and copy `assets/project-brief.example.json` before extraction. Ask the eight choices in one batch, then write the brief to `sumber/project-brief.json`.
 
-- Source folder and output folder.
-- Exam format, language, and whether interview preparation is required.
-- Whether audio may be transcribed and how long the narrated video should be.
-- Brand/theme constraints and whether the result must work offline.
-- Whether the user wants a public or private distribution.
+1. Source folder and output folder.
+2. Exam shape: questions, minutes, interview.
+3. Language.
+4. Outputs: website, quiz, print PDF, video, interview guide, transcripts.
+5. Video: yes or no, minutes, voice, subtitles.
+6. Theme: light, dark, or system.
+7. Audio transcription and files to ignore.
+8. Distribution and confidentiality constraints.
 
-Default assumptions: Indonesian or the source language, offline static site, white theme, 5-minute video, local processing only.
+Defaults: source language, light theme, video off unless requested, 5 minutes when enabled, print PDF and quiz on, interview guide on when the exam has an interview, local processing only.
 
 ## Workflow
 
@@ -106,12 +109,12 @@ Prefer tables, short lists, formulas, and labeled diagrams over long prose. Do n
 
 ### 6. Build the outputs
 
-Build all outputs from one data model where possible.
+Build only the outputs enabled in the brief. Skip video scripting, TTS, slides, and rendering when video is off.
 
-- Website: static, offline, white theme, system fonts, responsive, no CDN.
+- Website: static, offline, light or dark theme, system fonts, responsive, no CDN.
 - Quiz: filter by topic, search, shuffle, reveal answer, explanation, trap, retry wrong, list mode, local progress.
 - Print PDF: a print stylesheet with all questions, keys, and explanations, rendered with headless Chrome.
-- Video: 5 minutes, narrated TTS, screenshots of the site, title/bullets/takeaway, SRT.
+- Video: requested duration, narrated TTS, screenshots of the site, title/bullets/takeaway, SRT.
 - Reference pages: glossary, abbreviations with tooltips, coverage map.
 
 Read `references/04-site-build.md` and `references/05-video.md` before implementing.
@@ -175,6 +178,8 @@ study-pack/
 | Print | PDF opens; expected question count; readable at A4 |
 | Video | Duration matches target; audio audible; frames match sections; SRT valid |
 | Distribution | No source PDFs, audio, screenshots, personal data, or logos in the public repo |
+| Brief | Every requested output is built; skipped outputs are reported |
+| Theme | Light and dark modes both keep readable contrast if dark is selected |
 
 ## Resources
 
@@ -187,8 +192,10 @@ study-pack/
 - `scripts/make_slides.py`: white-theme 1920x1080 slides from a script JSON.
 - `scripts/render_video.py`: segments, intro/outro, concat, AAC/H.264.
 - `scripts/check_site.py`: links, quiz data, PDF count, artifact scan.
-- `references/`: detailed procedures and guardrails.
-- `assets/site-template/`: offline study-site starter.
+- `references/01-07`: detailed procedures and guardrails.
+- `references/08-project-brief.md`: question list, defaults, and brief schema.
+- `assets/project-brief.example.json`: copyable brief.
+- `assets/site-template/`: offline study-site starter with light and dark modes.
 - `assets/video-template/script.example.json`: video script schema.
 - `examples/synthetic/`: safe test data.
 

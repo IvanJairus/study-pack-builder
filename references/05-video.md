@@ -68,6 +68,8 @@ python scripts/make_slides.py working/script.json --shots working/shots --out wo
 
 Keep text large enough for mobile viewing. Do not put a full paragraph on a slide.
 
+The video slides are white by default. If the brief asks for a dark video, change the slide palette and re-check text contrast. The website dark mode does not apply to the rendered slides automatically.
+
 ## Render
 
 For each section:

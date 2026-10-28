@@ -56,7 +56,7 @@
 
   const renderToolbar = () => {
     const c = counts();
-    const chips = [`<button class="filter-chip ${state.filter==='all'?'active':''}" data-filter="all">Semua <span>${c.all}</span></button>`];
+    const chips = [`<button class="filter-chip ${state.filter==='all'?'active':''}" data-filter="all">All <span>${c.all}</span></button>`];
     const seen = new Set();
     DATA.forEach(q => {
       if (seen.has(q.topic_slug)) return;

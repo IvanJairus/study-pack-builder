@@ -3,7 +3,7 @@
 ## Principles
 
 - Static, offline, no CDN, no build step required.
-- White reading surface, dark ink, one accent per topic.
+- Light or dark reading surface, white by default, one accent per topic.
 - System fonts: sans-serif for headings and UI, serif for long prose, monospace for numbers.
 - No dead controls. Every button must work.
 - Every page must be readable at 390 px and 1440 px.
@@ -33,6 +33,14 @@
 ```
 
 Use category accent colors only for kickers, rules, numbers, dots, and thin borders. Keep cards and callouts white or near-white.
+
+## Dark mode
+
+The starter template uses `data-mode="light"` or `data-mode="dark"` on `<body>`. The dark block overrides surface, ink, line, semantic, accent, tooltip, and topbar tokens. Category themes have lighter dark variants.
+
+A topbar button toggles the mode and stores the choice in `localStorage`. If the brief selects dark, set the body attribute to dark. The toggle still lets the reader switch.
+
+Check contrast for normal text, muted text, callouts, quiz correct and wrong states, the tooltip, and the focus ring. Do not assume that a dark website automatically produces a readable dark video.
 
 ## Page shell
 
