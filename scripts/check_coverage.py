@@ -162,15 +162,22 @@ def validate_normalized(path, units, level):
     if level != "unit":
         warnings.append("coverage level is range; unit-level normalized comparison skipped")
         return errors, warnings
-    actual = {(normalize_source(item.get("source", "")), item.get("ref", "")) for item in units}
+    normalized_kinds = {"page", "slide", "line", "paragraph", "row", "block", "heading", "list_item", "code", "note", "cell"}
+    actual = {
+        (normalize_source(item.get("source", "")), item.get("ref", ""))
+        for item in units
+        if item.get("kind") in normalized_kinds
+    }
+    status_by_key = {
+        (normalize_source(item.get("source", "")), item.get("ref", "")): item.get("status")
+        for item in units
+    }
     missing = sorted(expected - actual)
-    extra = sorted(actual - expected)
+    extra = sorted(key for key in actual - expected if status_by_key.get(key) != "non-content")
     if missing:
         errors.append(f"normalized records not in coverage: {missing[:10]}")
     if extra:
         errors.append(f"coverage units not in normalized records: {extra[:10]}")
-    if len(expected) != len(actual):
-        errors.append(f"normalized has {len(expected)} units, coverage has {len(actual)}")
     return errors, warnings
 
 
@@ -194,9 +201,10 @@ def validate_coverage(path, root, questions=None, normalized=None):
     errors.extend(unit_errors)
     warnings.extend(unit_warnings)
     range_totals = data.get("range_totals")
-    if not isinstance(range_totals, list) or not range_totals:
+    has_range_units = any(unit.get("kind") in RANGE_KINDS for unit in units if isinstance(unit, dict))
+    if has_range_units and (not isinstance(range_totals, list) or not range_totals):
         warnings.append("coverage range_totals is missing; end of source ranges is not proven")
-    else:
+    elif isinstance(range_totals, list) and range_totals:
         for entry in range_totals:
             if not isinstance(entry, dict):
                 errors.append("range_totals entry is not an object")
@@ -215,6 +223,32 @@ def validate_coverage(path, root, questions=None, normalized=None):
                     errors.append(f"{source} {kind} starts at {items[0][0]}, expected 1")
                 if items[-1][1] != total:
                     errors.append(f"{source} {kind} ends at {items[-1][1]}, expected {total}")
+    source_totals = data.get("source_totals")
+    if isinstance(source_totals, list):
+        for entry in source_totals:
+            if not isinstance(entry, dict):
+                errors.append("source_totals entry is not an object")
+                continue
+            source = str(entry.get("source") or "").strip()
+            total = entry.get("total")
+            if not isinstance(total, int) or total < 1:
+                errors.append(f"source_totals total is invalid for {source}")
+                continue
+            numbers = set()
+            for unit in units:
+                if not isinstance(unit, dict):
+                    continue
+                if normalize_source(unit.get("source", "")) != normalize_source(source):
+                    continue
+                match = re.search(r"(\d+)", str(unit.get("ref") or ""))
+                if match:
+                    numbers.add(int(match.group(1)))
+            missing = sorted(set(range(1, total + 1)) - numbers)
+            extra = sorted(number for number in numbers if number > total)
+            if missing:
+                errors.append(f"source_totals {source} missing units: {missing[:10]}")
+            if extra:
+                errors.append(f"source_totals {source} has units beyond total: {extra[:10]}")
     summary = data.get("summary")
     if not isinstance(summary, dict):
         warnings.append("coverage summary is missing")

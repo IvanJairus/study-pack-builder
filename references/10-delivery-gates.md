@@ -187,6 +187,9 @@ Schema:
   "range_totals": [
     {"source": "deck.pptx", "kind": "slide_range", "total": 286}
   ],
+  "source_totals": [
+    {"source": "deck.pptx", "total": 287}
+  ],
   "units": [
     {
       "source": "deck.pptx",
@@ -219,8 +222,10 @@ Rules:
 - Range units must not overlap or leave gaps.
 - Every raw question ID appears exactly once in the final quiz.
 - Every range family has a `range_totals` entry. Its ranges start at 1, have no gaps or overlaps, and end at the declared total.
+- For unit-level manifests, `source_totals` proves that every physical slide or page from 1 to the total is present. Empty cover slides must appear as `non-content` with a reason.
 - Every requested output and the source inventory must exist.
 - A range manifest proves every declared range, not every individual unit. Use unit-level coverage when normalized JSONL exists.
+- Unit-level comparison ignores extra `non-content` units, because an empty cover slide has no normalized text record.
 - If `build_coverage.py` is run without `--raw-questions`, raw IDs are taken from the quiz sources. That checks internal uniqueness, not an external extraction. Pass `--raw-questions` for an external audit.
 
 The gate runs the same validator with `check_site.py --brief ... --strict`.
