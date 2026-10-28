@@ -4,6 +4,7 @@
 
 - Never commit source PDFs, PPTX files, audio, screenshots, or extracted transcripts to a public repository.
 - Keep `working/normalized.jsonl` and its summary out of the final deliverable and the public repository. They contain source text and paths.
+- `sumber/source-inventory.json` and `sumber/coverage-map.md` are metadata and may ship with the local pack. Use relative paths and review hashes before publishing.
 - Do not execute macros from XLSM, DOCM, or other Office files. The normalizer reads document XML only.
 - Remove names, employee IDs, unit names, email addresses, phone numbers, and organization logos from public examples.
 - Use synthetic examples for tests and documentation.

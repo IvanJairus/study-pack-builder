@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Study Map · Study Pack Builder</title>
+<meta name="description" content="Category map with weights, source ranges, question counts, process matrix, and study route.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="map" data-theme="green" data-mode="light">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="progress-rail"><span></span></div>
+
+<header class="topbar">
+  <a class="brand" href="index.html">
+    <span class="brand-tile">SP</span>
+    <span class="brand-name">Study Pack<span class="brand-sub">Builder · template</span></span>
+  </a>
+  <nav class="topnav" aria-label="Main navigation">
+    <a href="index.html">Home</a>
+    <a href="map.html" aria-current="page">Map</a>
+    <a href="foundation.html">Foundation</a>
+    <a href="topic.html">Topic</a>
+    <a href="reference.html">Reference</a>
+    <a href="interview.html">Interview</a>
+    <a class="nav-cta" href="bank-soal.html">Question bank</a>
+  </nav>
+  <button class="menu-btn" data-menu-btn aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  <button class="theme-toggle" data-theme-toggle aria-label="Switch to dark theme">☾</button>
+</header>
+<div class="mobile-menu" data-mobile-menu>
+  <a href="index.html"><span>Home</span><span>HOME</span></a>
+  <a href="map.html"><span>Map</span><span>MAP</span></a>
+  <a href="foundation.html"><span>Foundation</span><span>FOUNDATION</span></a>
+  <a href="topic.html"><span>Topic</span><span>TOPIC</span></a>
+  <a href="reference.html"><span>Reference</span><span>REFERENCE</span></a>
+  <a href="interview.html"><span>Interview</span><span>INTERVIEW</span></a>
+  <a href="bank-soal.html"><span>Question bank</span><span>QUIZ</span></a>
+</div>
+
+<div class="shell">
+  <aside class="sidebar" aria-label="Study map">
+    <p class="side-label">Study map</p>
+    <nav class="side-nav">
+      <a href="index.html"><span class="num">00</span><span>Home</span><span class="tick"></span></a>
+      <a href="map.html" aria-current="page"><span class="num">01</span><span>Study map</span><span class="tick"></span></a>
+      <a href="foundation.html"><span class="num">02</span><span>Foundation</span><span class="tick"></span></a>
+      <a href="topic.html"><span class="num">03</span><span>Reliability</span><span class="tick"></span></a>
+      <a href="reference.html"><span class="num">04</span><span>Reference</span><span class="tick"></span></a>
+      <a href="interview.html"><span class="num">05</span><span>Interview</span><span class="tick"></span></a>
+      <a href="bank-soal.html"><span class="num">06</span><span>Question bank</span><span class="tick"></span></a>
+    </nav>
+    <div class="side-block">
+      <p>Map rule</p>
+      <p class="small">Every category has a page, a source range, a weight, and a place in the study route.</p>
+    </div>
+  </aside>
+
+  <main class="main" id="main"><div class="content" data-topic-map>
+    <p class="kicker">Study map · categories and magnitudes</p>
+    <h1>What to learn, <span class="thin">in what order</span></h1>
+    <p class="lead">Read the map before the first topic. Weights show where to spend time, question counts show practice volume, and source ranges show where each category comes from.</p>
+
+    <h2><span class="h2-num">01 · CATEGORIES</span>Weight, source, and practice volume</h2>
+    <div data-study-map="overview"></div>
+
+    <h2><span class="h2-num">02 · MATRIX</span>Category by process step</h2>
+    <div data-study-map="matrix"></div>
+
+    <h2><span class="h2-num">03 · ROUTE</span>Read, practice, then explain</h2>
+    <div data-study-map="route"></div>
+
+    <h2><span class="h2-num">04 · RELATIONSHIPS</span>How categories affect each other</h2>
+    <div data-study-map="relationships"></div>
+
+    <div class="source-note">
+      <span class="label">Map data</span>
+      <span class="tiny">Edit <code>assets/map-data.js</code>. Weights must sum to 100 and every page must exist.</span>
+    </div>
+
+    <nav class="page-nav" aria-label="Page navigation">
+      <a href="index.html"><span class="pn-label">Previous</span><span class="pn-title">← Home</span></a>
+      <a class="next" href="foundation.html"><span class="pn-label">Next</span><span class="pn-title">Foundation →</span></a>
+    </nav>
+  </div></main>
+</div>
+
+<footer class="site-footer">
+  <span>Study Pack Builder · study map template.</span>
+  <span>Replace the sample categories with source-derived clusters.</span>
+</footer>
+<button class="to-top" data-to-top aria-label="Back to top">↑</button>
+<script src="assets/map-data.js"></script>
+<script src="assets/quiz-data.js"></script>
+<script src="assets/map.js"></script>
+<script src="assets/abbreviations.js"></script>
+<script src="assets/site.js"></script>
+</body>
+</html>

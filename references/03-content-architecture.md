@@ -17,22 +17,22 @@ Do not force six clusters if the source has five or nine. The structure must fol
 
 ## Page template
 
-Use a consistent order:
+Use a consistent order. Add the matching `data-study-block` attribute to each section so the delivery gate can verify it:
 
 1. Kicker and title.
-2. One-sentence orientation.
-3. "30-second essentials", three to five bullets.
-4. The process sequence as a visual.
-5. Definition and scope.
-6. Factors or parameters in a table.
-7. Measurement methods and formulas.
-8. Monitoring and controls.
-9. Reporting frequency and recipients.
-10. Exam traps.
-11. Self-check questions.
-12. Source ranges and related pages.
+2. One-sentence orientation (`data-study-block="orientation"`).
+3. "30-second essentials", three to five bullets (`data-study-block="essentials"`).
+4. The process sequence as a visual (`data-study-block="process"`).
+5. Definition and scope (`data-study-block="definition"`).
+6. Factors or parameters in a table (`data-study-block="parameters"`).
+7. Measurement methods and formulas (`data-study-block="measurement"`).
+8. Monitoring and controls (`data-study-block="monitoring"`).
+9. Reporting frequency and recipients (`data-study-block="reporting"`).
+10. Exam traps (`data-study-block="traps"`).
+11. Self-check questions (`data-study-block="self-check"`).
+12. Source range (`data-source-range="Slides 1-20"`).
 
-This order reduces memory load: the learner sees the big picture before the details.
+This order reduces memory load: the learner sees the big picture before the details. Items 1, 2, 4, 10, 11, and 12 are mandatory for every topic page. Items 5 to 9 are required by the strict delivery gate.
 
 ## Foundation page
 
@@ -52,14 +52,22 @@ Use tables for parameters, methods, and reporting. Use formulas for ratios and c
 
 Add a "traps" section. The most useful traps come from the question bank and the instructor's audio notes.
 
-## Topic map
+## Study map
 
-Create one visual and one matrix:
+Create `map.html` and a compact map on the index. The map is data-driven from `assets/map-data.js`, not hand-written cards.
 
-- Visual: center = the shared framework, surrounding nodes = clusters.
-- Matrix: rows = clusters, columns = process steps, cells = key artifacts.
+Each category declares:
 
-The matrix is often the single most useful page for revision.
+- `title`, `slug`, `page`, `kind`
+- `weight`: positive, all weights sum to 100
+- `source`: slide, page, line, or row range
+- `quiz_topic`: the topic name used by the quiz
+- `prerequisites`: slugs that should be read first
+- `matrix`: one non-empty value per process step
+
+The map also declares the shared `process`, a `route` of reading, practice, and interview steps with minutes, and `relationships` between categories. The index shows a compact version. `map.html` shows overview cards, the category by process matrix, the route, and the relationship table.
+
+The matrix is often the single most useful page for revision. The weights are the study plan: they tell the learner where to spend time and how much practice volume a category has.
 
 ## Relationship map
 

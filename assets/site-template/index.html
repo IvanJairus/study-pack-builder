@@ -19,6 +19,8 @@
   </a>
   <nav class="topnav" aria-label="Main navigation">
     <a href="index.html" aria-current="page">Home</a>
+    <a href="map.html">Map</a>
+    <a href="foundation.html">Foundation</a>
     <a href="topic.html">Topic</a>
     <a href="reference.html">Reference</a>
     <a href="interview.html">Interview</a>
@@ -29,6 +31,8 @@
 </header>
 <div class="mobile-menu" data-mobile-menu>
   <a href="index.html"><span>Home</span><span>HOME</span></a>
+  <a href="map.html"><span>Map</span><span>MAP</span></a>
+  <a href="foundation.html"><span>Foundation</span><span>FOUNDATION</span></a>
   <a href="topic.html"><span>Topic</span><span>TOPIC</span></a>
   <a href="reference.html"><span>Reference</span><span>REFERENCE</span></a>
   <a href="interview.html"><span>Interview</span><span>INTERVIEW</span></a>
@@ -40,10 +44,12 @@
     <p class="side-label">Study map</p>
     <nav class="side-nav">
       <a href="index.html" aria-current="page"><span class="num">00</span><span>Home</span><span class="tick"></span></a>
-      <a href="topic.html"><span class="num">01</span><span>Reliability</span><span class="tick"></span></a>
-      <a href="reference.html"><span class="num">02</span><span>Reference</span><span class="tick"></span></a>
-      <a href="interview.html"><span class="num">03</span><span>Interview</span><span class="tick"></span></a>
-      <a href="bank-soal.html"><span class="num">04</span><span>Question bank</span><span class="tick"></span></a>
+      <a href="map.html"><span class="num">01</span><span>Study map</span><span class="tick"></span></a>
+      <a href="foundation.html"><span class="num">02</span><span>Foundation</span><span class="tick"></span></a>
+      <a href="topic.html"><span class="num">03</span><span>Reliability</span><span class="tick"></span></a>
+      <a href="reference.html"><span class="num">04</span><span>Reference</span><span class="tick"></span></a>
+      <a href="interview.html"><span class="num">05</span><span>Interview</span><span class="tick"></span></a>
+      <a href="bank-soal.html"><span class="num">06</span><span>Question bank</span><span class="tick"></span></a>
     </nav>
     <div class="side-block">
       <p>Template note</p>
@@ -56,44 +62,19 @@
     <h1>Study Pack <span class="thin">Builder</span></h1>
     <p class="lead">A white, offline study site starter for material extracted from slides, PDFs, audio, and question banks. Replace the sample content with your own source-derived topics.</p>
     <div class="hero-actions">
-      <a class="btn" href="topic.html">Open sample topic <span aria-hidden="true">→</span></a>
+      <a class="btn" href="map.html">Open study map <span aria-hidden="true">→</span></a>
       <a class="btn secondary" href="bank-soal.html">Practice 5 questions</a>
       <a class="btn ghost" href="interview.html">Interview guide</a>
     </div>
     <div class="exam-facts">
-      <div><b>3</b><span>sample topics</span></div>
+      <div><b>2</b><span>study categories</span></div>
       <div><b>5</b><span>sample questions</span></div>
-      <div><b>1</b><span>quiz engine</span></div>
+      <div><b>100%</b><span>weight covered</span></div>
       <div><b>0</b><span>external requests</span></div>
     </div>
 
-    <h2><span class="h2-num">01 · MAP</span>What is in this starter</h2>
-    <div class="topic-grid">
-      <a class="topic-card" href="topic.html" style="--tc:#2f5d4f">
-        <div class="tc-top"><span class="tc-num">01 · TOPIC</span><span class="tc-dot"></span></div>
-        <h3>Reliability Basics</h3>
-        <p>Definitions, a process, a comparison table, exam traps, and self-check questions.</p>
-        <span class="tc-arrow">→</span>
-      </a>
-      <a class="topic-card" href="interview.html" style="--tc:#8a3a50">
-        <div class="tc-top"><span class="tc-num">02 · INTERVIEW</span><span class="tc-dot"></span></div>
-        <h3>Interview Guide</h3>
-        <p>What assessors look for, a five-step answer structure, and two model answers.</p>
-        <span class="tc-arrow">→</span>
-      </a>
-      <a class="topic-card" href="bank-soal.html" style="--tc:#34567f">
-        <div class="tc-top"><span class="tc-num">03 · QUIZ</span><span class="tc-dot"></span></div>
-        <h3>Question Bank</h3>
-        <p>Topic filters, search, shuffle, answer reveal, explanations, and retry-wrong.</p>
-        <span class="tc-arrow">→</span>
-      </a>
-      <a class="topic-card" href="reference.html" style="--tc:#855424">
-        <div class="tc-top"><span class="tc-num">04 · REFERENCE</span><span class="tc-dot"></span></div>
-        <h3>How to extend</h3>
-        <p>Add a foundation page, topic pages, a glossary, an abbreviation table, and a coverage map.</p>
-        <span class="tc-arrow">→</span>
-      </a>
-    </div>
+    <h2><span class="h2-num">01 · MAP</span>Categories, weights, and practice volume</h2>
+    <div data-topic-map data-study-map="compact"></div>
 
     <h2><span class="h2-num">02 · FLOW</span>From sources to a study pack</h2>
     <div class="process">
@@ -106,8 +87,10 @@
     <div class="callout ok">
       <div class="callout-title">What to replace</div>
       <ul class="list-tight">
-        <li>Replace the four topic cards, the sample topic body, and the interview answers.</li>
+        <li>Replace the categories and weights in <code>assets/map-data.js</code>.</li>
+        <li>Replace the sample topic body and the interview answers.</li>
         <li>Replace <code>assets/quiz-data.js</code> with your deduplicated question bank.</li>
+        <li>Generate <code>assets/abbreviations.js</code> from the reference table.</li>
         <li>Add a coverage map and a source range in every page footer.</li>
         <li>Keep the white theme, system fonts, and offline constraint unless the user asks otherwise.</li>
       </ul>
@@ -125,6 +108,10 @@
   <span>Replace sample content with source-derived material.</span>
 </footer>
 <button class="to-top" data-to-top aria-label="Back to top">↑</button>
+<script src="assets/abbreviations.js"></script>
+<script src="assets/map-data.js"></script>
+<script src="assets/quiz-data.js"></script>
+<script src="assets/map.js"></script>
 <script src="assets/site.js"></script>
 </body>
 </html>

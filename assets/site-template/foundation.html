@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Foundation · Study Pack Builder</title>
+<meta name="description" content="Foundation page for the Study Pack Builder template: shared concepts, process, traps, and self-check.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="topic" data-theme="green" data-mode="light">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="progress-rail"><span></span></div>
+
+<header class="topbar">
+  <a class="brand" href="index.html">
+    <span class="brand-tile">SP</span>
+    <span class="brand-name">Study Pack<span class="brand-sub">Builder · template</span></span>
+  </a>
+  <nav class="topnav" aria-label="Main navigation">
+    <a href="index.html">Home</a>
+    <a href="map.html">Map</a>
+    <a href="foundation.html" aria-current="page">Foundation</a>
+    <a href="topic.html">Topic</a>
+    <a href="reference.html">Reference</a>
+    <a href="interview.html">Interview</a>
+    <a class="nav-cta" href="bank-soal.html">Question bank</a>
+  </nav>
+  <button class="menu-btn" data-menu-btn aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  <button class="theme-toggle" data-theme-toggle aria-label="Switch to dark theme">☾</button>
+</header>
+<div class="mobile-menu" data-mobile-menu>
+  <a href="index.html"><span>Home</span><span>HOME</span></a>
+  <a href="map.html"><span>Map</span><span>MAP</span></a>
+  <a href="foundation.html"><span>Foundation</span><span>FOUNDATION</span></a>
+  <a href="topic.html"><span>Topic</span><span>TOPIC</span></a>
+  <a href="reference.html"><span>Reference</span><span>REFERENCE</span></a>
+  <a href="interview.html"><span>Interview</span><span>INTERVIEW</span></a>
+  <a href="bank-soal.html"><span>Question bank</span><span>QUIZ</span></a>
+</div>
+
+<div class="shell">
+  <aside class="sidebar" aria-label="Study map">
+    <p class="side-label">Study map</p>
+    <nav class="side-nav">
+      <a href="index.html"><span class="num">00</span><span>Home</span><span class="tick"></span></a>
+      <a href="map.html"><span class="num">01</span><span>Study map</span><span class="tick"></span></a>
+      <a href="foundation.html" aria-current="page"><span class="num">02</span><span>Foundation</span><span class="tick"></span></a>
+      <a href="topic.html"><span class="num">03</span><span>Reliability</span><span class="tick"></span></a>
+      <a href="reference.html"><span class="num">04</span><span>Reference</span><span class="tick"></span></a>
+      <a href="interview.html"><span class="num">05</span><span>Interview</span><span class="tick"></span></a>
+      <a href="bank-soal.html"><span class="num">06</span><span>Question bank</span><span class="tick"></span></a>
+    </nav>
+    <div class="side-block">
+      <p>Start here</p>
+      <p class="small">Foundation explains the vocabulary and process used by every later category.</p>
+    </div>
+  </aside>
+
+  <main class="main" id="main"><div class="content">
+    <p class="kicker">Foundation · shared concepts</p>
+    <h1>Foundation <span class="thin">and process</span></h1>
+    <p class="lead" data-study-block="orientation">This page gives the shared vocabulary, one process, and the links to every category. Read it before a topic page so the later terms have a place to attach.</p>
+
+    <div class="callout ok" data-study-block="essentials">
+      <div class="callout-title">30-second essentials</div>
+      <ul class="list-tight">
+        <li><strong>SLO</strong> is an internal reliability target; <strong>SLA</strong> is a contract.</li>
+        <li><strong>SLI</strong> is the measurement behind a target.</li>
+        <li>An <strong>error budget</strong> is the allowed unreliability derived from the SLO.</li>
+        <li>The shared process is identify, measure, monitor, and respond.</li>
+      </ul>
+    </div>
+
+    <div class="process" data-study-block="process">
+      <div class="step"><span class="n">01</span><h4>Identify</h4><p>Name the behavior, the user, and the scope.</p></div>
+      <div class="step"><span class="n">02</span><h4>Measure</h4><p>Choose one metric and one target window.</p></div>
+      <div class="step"><span class="n">03</span><h4>Monitor</h4><p>Review burn, alerts, and the reporting cadence.</p></div>
+      <div class="step"><span class="n">04</span><h4>Respond</h4><p>Act on the threshold and record the decision.</p></div>
+    </div>
+
+    <h2 data-study-block="definition"><span class="h2-num">01 · CONCEPTS</span>Shared definitions</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Term</th><th>Definition</th><th>Why it matters</th></tr></thead>
+        <tbody>
+          <tr><td><strong>SLO</strong></td><td>An internal target for a reliability metric over a defined window.</td><td>Sets the target without creating a customer contract.</td></tr>
+          <tr><td><strong>SLI</strong></td><td>The measurement used to evaluate the target.</td><td>Makes the target observable.</td></tr>
+          <tr><td><strong>SLA</strong></td><td>A contractual commitment with a consequence.</td><td>Defines what happens when the commitment is missed.</td></tr>
+          <tr><td><strong>Error budget</strong></td><td>The allowed unreliability derived from the SLO.</td><td>Balances change speed with user trust.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 data-study-block="parameters"><span class="h2-num">02 · PARAMETERS</span>What to fix before measuring</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Parameter</th><th>Example</th><th>Rule</th></tr></thead>
+        <tbody>
+          <tr><td>Metric</td><td>Successful requests divided by valid requests</td><td>One primary metric per SLO.</td></tr>
+          <tr><td>Window</td><td>30 days</td><td>Keep the same window across comparisons.</td></tr>
+          <tr><td>Target</td><td>99.9%</td><td>State the target and the error budget together.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 data-study-block="measurement"><span class="h2-num">03 · MEASUREMENT</span>One formula to remember</h2>
+    <div class="formula">
+      <div class="formula-row"><span>Error budget</span><code>(1 - SLO) x window</code></div>
+    </div>
+    <p>At 99.9% over 30 days, the error budget is 0.1% of the window. Read the number as an allowance, not a spending target.</p>
+
+    <h2 data-study-block="monitoring"><span class="h2-num">04 · MONITORING</span>What to review</h2>
+    <ul class="list-clean">
+      <li><strong>Burn rate:</strong> how fast the budget is consumed against the target.</li>
+      <li><strong>Alerts:</strong> who is notified, at what threshold, and with what action.</li>
+      <li><strong>Drift:</strong> a metric that no longer represents the user-visible behavior.</li>
+    </ul>
+
+    <h2 data-study-block="reporting"><span class="h2-num">05 · REPORTING</span>Cadence and recipients</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Report</th><th>Cadence</th><th>Recipient</th></tr></thead>
+        <tbody>
+          <tr><td>Error budget status</td><td>Weekly</td><td>Service owner and engineering lead</td></tr>
+          <tr><td>Incident review</td><td>After each incident</td><td>Operations and product</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout trap" data-study-block="traps">
+      <div class="callout-title">Exam traps</div>
+      <ul class="list-tight">
+        <li>SLO and SLA are not synonyms.</li>
+        <li>An error budget is not a cost limit.</li>
+        <li>A target without a measurement is only a wish.</li>
+      </ul>
+    </div>
+
+    <section data-study-block="self-check">
+      <h2><span class="h2-num">06 · SELF-CHECK</span>Answer without looking</h2>
+      <details>
+        <summary>What is the difference between an SLO and an SLA?</summary>
+        <div class="details-body"><p>An SLO is an internal target. An SLA is a contractual commitment with a consequence, such as a service credit.</p></div>
+      </details>
+      <details>
+        <summary>Why does the error budget matter?</summary>
+        <div class="details-body"><p>It turns reliability into an allowance. Teams can spend it on change or slow down when it is exhausted.</p></div>
+      </details>
+    </section>
+
+    <p class="source-note" data-source-range="Slides 1-10">
+      <span class="label">Source</span>
+      <span class="tiny">Slides 1-10 · synthetic reliability source.</span>
+    </p>
+
+    <nav class="page-nav" aria-label="Page navigation">
+      <a href="map.html"><span class="pn-label">Previous</span><span class="pn-title">← Study map</span></a>
+      <a class="next" href="topic.html"><span class="pn-label">Next</span><span class="pn-title">Reliability →</span></a>
+    </nav>
+  </div></main>
+</div>
+
+<footer class="site-footer">
+  <span>Study Pack Builder · foundation template.</span>
+  <span>Replace the sample definitions with source-derived content.</span>
+</footer>
+<button class="to-top" data-to-top aria-label="Back to top">↑</button>
+<script src="assets/abbreviations.js"></script>
+<script src="assets/site.js"></script>
+</body>
+</html>

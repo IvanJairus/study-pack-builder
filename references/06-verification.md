@@ -10,11 +10,24 @@ Do not claim completion from a successful build alone. Verify the state, not the
 - Every audio session has a transcript or a documented reason for omission.
 - Every output page has a source range or normalized ref.
 
+## Delivery gate
+
+```bash
+python scripts/check_site.py \
+  --root output \
+  --brief output/sumber/project-brief.json \
+  --quiz output/assets/quiz-data.js \
+  --pdf output/bank-soal/question-bank.pdf \
+  --min-topics 5 \
+  --strict
+```
+
+The gate must pass before delivery. It checks the brief, inventory, map, page structure, abbreviations, coverage, transcripts, quiz, links, and artifacts. Read `references/10-delivery-gates.md` for the failure conditions.
+
 ## Question bank
 
 ```bash
-python scripts/quiz_schema.py output/assets/js/quiz-data.js
-python scripts/check_site.py --root output --quiz output/assets/js/quiz-data.js --pdf output/bank-soal/question-bank.pdf
+python scripts/quiz_schema.py output/assets/quiz-data.js
 ```
 
 Check:
@@ -44,6 +57,9 @@ Check:
 - Quiz filters, search, shuffle, check, retry, list mode, and progress persistence.
 - Single choice, multiple choice, true or false, and short answer all work.
 - Multiple choice requires the exact set; short answer accepts listed variants.
+- The map renders overview, matrix, route, and relationships at 390 px and 1440 px.
+- Every map category links to an existing page with a source range.
+- Tooltips resolve from `assets/abbreviations.js`, and the reference search works.
 - Abbreviation tooltip on hover, keyboard focus, and tap.
 - No tooltips inside quiz options and reference tables.
 - Mobile 390 px and desktop 1440 px.
@@ -62,9 +78,13 @@ Check:
 
 | Area | Required evidence |
 |---|---|
-| Source | coverage map complete for every normalized ref |
+| Brief | confirmed_at and confirmed_by present; requested outputs exist |
+| Source | inventory SSOT and coverage map complete |
 | Questions | raw and unique counts match the cluster output; every ID mapped once |
 | Answers | 0 missing, 0 not in options, 0 invalid type |
+| Map | weights sum to 100; every category page exists; matrix complete |
+| Structure | core blocks and source range on every topic page; recommended blocks reviewed |
+| Abbreviations | generated file matches the table; search works |
 | Site | 0 broken links, 0 console errors |
 | Mobile | 390 px screenshot checked |
 | Desktop | 1440 px screenshot checked |

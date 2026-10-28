@@ -1,6 +1,6 @@
 ---
 name: study-pack-builder
-description: Build a complete study pack from mixed local sources such as PDF, PPTX, DOCX, HTML, EPUB, TXT, Markdown, CSV, XLSX, audio recordings, and question banks. Use when the user wants a structured study website, a deduplicated exam question bank with explanations, a printable PDF, a narrated overview video, interview notes, or a repeatable source-to-study-pack pipeline with verification.
+description: Build a complete study pack from mixed local sources such as PDF, PPTX, DOCX, HTML, EPUB, TXT, Markdown, CSV, XLSX, audio recordings, and question banks. Use when the user wants a structured study website with a weighted map, a deduplicated exam question bank with explanations, a printable PDF, narrated video, interview notes, source inventory, or a repeatable pipeline with strict delivery gates.
 ---
 
 # Study Pack Builder
@@ -25,21 +25,29 @@ Do not use for a single-document summary, a generic essay, or publishing proprie
 3. Never invent an answer. If a key cannot be read, fill it from a duplicate or mark it unresolved for review.
 4. Preserve traceability: source file, page/slide range, timestamp, or question ID.
 5. Verify before delivery. A green build is not proof that the study pack is correct or usable.
+6. Do not extract or build until the project brief is confirmed by the user.
+7. Do not deliver without the strict delivery gate in `references/10-delivery-gates.md`.
+8. Every pack has a source inventory, a weighted study map, and one abbreviation source of truth.
 
 ## Project brief
 
-Read `references/08-project-brief.md` and copy `assets/project-brief.example.json` before extraction. Ask the eight choices in one batch, then write the brief to `sumber/project-brief.json`.
+Read `references/08-project-brief.md` and copy `assets/project-brief.example.json` before extraction. Ask the nine choices in one batch, then write the brief to `sumber/project-brief.json`.
 
 1. Source folder and output folder.
-2. Exam shape: questions, minutes, interview.
+2. Exam shape: questions, minutes, question types, interview.
 3. Language.
 4. Outputs: website, quiz, print PDF, video, interview guide, transcripts.
 5. Video: yes or no, minutes, voice, subtitles.
 6. Theme: light, dark, or system.
 7. Audio transcription and files to ignore.
-8. Distribution and confidentiality constraints.
+8. SSOT: which file or pattern is authoritative, and the role of each source group.
+9. Distribution and confidentiality constraints.
 
 Defaults: source language, light theme, video off unless requested, 5 minutes when enabled, print PDF and quiz on, interview guide on when the exam has an interview, local processing only.
+
+After the brief is filled, show a MAKE SURE summary in chat and wait for an explicit yes. Then run `python scripts/confirm_brief.py sumber/project-brief.json --by "user"`. Without `confirmed_at` and `confirmed_by`, the delivery gate fails and the build must stop.
+
+Read `references/10-delivery-gates.md` for the full gate contract.
 
 ## Workflow
 
@@ -47,6 +55,8 @@ Defaults: source language, light theme, video off unless requested, 5 minutes wh
 
 Create a source inventory before writing content.
 
+- Run `scripts/doctor.py --need ...` for the formats in the brief. It prints the exact install command for missing tools. Do not silently install packages.
+- Build `sumber/source-inventory.json` with `scripts/source_inventory.py`. Record SSOT, roles, hashes, supported formats, and ignored files before extraction.
 - List file types, counts, pages, durations, and whether text is selectable.
 - When the folder contains TXT, Markdown, HTML, DOCX, DOC, RTF, EPUB, CSV, TSV, or XLSX, run `scripts/normalize_source.py` to produce one JSONL stream with stable refs.
 - Extract PDF text per page with `scripts/extract_pdf.py`.
@@ -57,6 +67,8 @@ Create a source inventory before writing content.
 - Keep raw extraction in a working directory, never in the final deliverable.
 
 ```bash
+python scripts/doctor.py --need pdf,pptx,doc
+python scripts/source_inventory.py sources/ --out sumber/source-inventory.json --brief sumber/project-brief.json
 python scripts/normalize_source.py sources/ --out working/normalized.jsonl
 ```
 
@@ -67,10 +79,12 @@ Read `references/01-source-extraction.md` for commands and `references/09-format
 Derive topics from the source, not from a fixed template.
 
 - Group material into 5 to 8 major clusters plus a foundation/orientation page.
+- Give every cluster a weight. Weights are positive integers and must sum to 100.
 - Build one matrix: clusters x the source's recurring process (for example identify, measure, monitor, communicate).
 - Add a relationship map for cross-topic effects.
-- Map every slide/page range to exactly one output page.
+- Map every slide, page, paragraph, line range, or table row to exactly one output page.
 - Identify cross-cutting themes such as regulation, climate, cyber, or reporting.
+- Write the map to `assets/map-data.js` and render it in `map.html` and the index. The map must show weight, source range, question count, prerequisites, and a study route.
 
 Read `references/03-content-architecture.md` for page structure and coverage mapping.
 
@@ -117,31 +131,42 @@ Prefer tables, short lists, formulas, and labeled diagrams over long prose. Do n
 
 Build only the outputs enabled in the brief. Skip video scripting, TTS, slides, and rendering when video is off.
 
-- Website: static, offline, light or dark theme, system fonts, responsive, no CDN.
+- Website: static, offline, light or dark theme, system fonts, responsive, no CDN. Include `map.html` and a compact map on the index.
 - Quiz: filter by topic, search, shuffle, reveal answer, explanation, trap, retry wrong, list mode, local progress. Support single choice, multiple choice, true or false, and short answer with variable option counts.
 - Print PDF: a print stylesheet with all questions, keys, and explanations, rendered with headless Chrome.
 - Video: requested duration, narrated TTS, screenshots of the site, title/bullets/takeaway, SRT.
-- Reference pages: glossary, abbreviations with tooltips, coverage map.
+- Reference pages: glossary, abbreviations with tooltips, coverage map. The visible abbreviation table is the source of truth; run `scripts/build_abbreviations.py` to generate `assets/abbreviations.js`. Do not keep a second hardcoded dictionary.
+- Topic pages: use the required `data-study-block` attributes and `data-source-range` from `references/10-delivery-gates.md`.
 
 Read `references/04-site-build.md` and `references/05-video.md` before implementing.
 
 ### 7. Verify and deliver
 
-Run all checks:
+Run the strict delivery gate:
 
-- Every source page, slide, paragraph, line range, or row is mapped to an output page.
-- Every raw question is mapped exactly once.
-- Every answer matches its question type; choice questions have at least 2 options; explanation and trap are present.
-- Zero broken relative links.
-- Quiz interactions work for all four question types on desktop and mobile.
-- No console errors.
-- Light and dark themes render correctly at 390 px and 1440 px.
-- PDF contains the expected number of questions.
-- Video duration, audio levels, slide sync, and SRT match.
-- No em dash or unintended CJK characters in artifacts.
-- No proprietary files in the distributed folder or repository.
+```bash
+python scripts/check_site.py \
+  --root output \
+  --brief output/sumber/project-brief.json \
+  --quiz output/assets/quiz-data.js \
+  --pdf output/bank-soal/question-bank.pdf \
+  --min-topics 5 \
+  --strict
+```
 
-Read `references/06-verification.md` for commands and acceptance gates.
+It checks:
+
+- Brief confirmation and every requested output.
+- Source inventory, SSOT, roles, and hashes.
+- Map categories, weights, matrix, pages, and links.
+- Core and recommended learning blocks on every topic page.
+- Abbreviation table and generated dictionary in sync.
+- Coverage map, transcripts, and video when requested.
+- Quiz schema, links, PDF, and artifacts.
+
+Also open the site: all four quiz types, filters, retry, list mode, 390 px and 1440 px, light and dark themes, and no console errors. A green gate still needs a human read.
+
+Read `references/06-verification.md` for manual checks and `references/10-delivery-gates.md` for failure conditions.
 
 ## Output layout
 
@@ -150,7 +175,7 @@ Use a predictable layout so the user can navigate without instructions.
 ```text
 study-pack/
 ├── index.html
-├── peta-topik.html
+├── map.html
 ├── foundation.html
 ├── topic-01.html ... topic-06.html
 ├── bank-soal.html
@@ -162,12 +187,17 @@ study-pack/
 │   ├── css/style.css
 │   ├── js/site.js
 │   ├── js/quiz.js
-│   └── js/quiz-data.js
+│   ├── js/quiz-data.js
+│   ├── map-data.js
+│   ├── map.js
+│   └── abbreviations.js
 ├── video/
 │   ├── overview.mp4
 │   ├── overview.srt
 │   └── script.md
 └── sumber/
+    ├── project-brief.json
+    ├── source-inventory.json
     ├── coverage-map.md
     └── transcripts/
 ```
@@ -178,6 +208,12 @@ study-pack/
 |---|---|
 | Source coverage | Every page, slide, paragraph, line range, or row has a destination or is explicitly marked as non-content |
 | Source formats | Every supported source is normalized or explicitly skipped; summary errors are reviewed |
+| Brief | Confirmed by the user, all requested outputs exist |
+| Inventory | SSOT is present, hashes valid, every role valid |
+| Map | 5 to 8 categories, weights sum to 100, matrix complete, all pages exist |
+| Structure | Core blocks and source range on every topic page |
+| Abbreviations | Generated file matches the reference table and is used by site.js |
+| Coverage | `sumber/coverage-map.md` exists and has a table |
 | Question coverage | Every raw question ID appears once in a cluster |
 | Question schema | `quiz_schema.py` reports 0 errors; warnings are reviewed |
 | Answer integrity | Answer matches the type; options are valid; no blank explanation or trap |
@@ -186,25 +222,27 @@ study-pack/
 | Print | PDF opens; expected question count; readable at A4 |
 | Video | Duration matches target; audio audible; frames match sections; SRT valid |
 | Distribution | No source PDFs, audio, screenshots, personal data, or logos in the public repo |
-| Brief | Every requested output is built; skipped outputs are reported |
 | Theme | Light and dark modes both keep readable contrast if dark is selected |
 
 ## Resources
 
+- `scripts/doctor.py`: preflight tools and exact install commands.
+- `scripts/source_inventory.py`: SSOT, roles, hashes, support status.
+- `scripts/confirm_brief.py`: write the user's confirmation into the brief.
 - `scripts/extract_pdf.py`: text per page and TOC.
 - `scripts/normalize_source.py`: mixed formats to JSONL with line, paragraph, and row refs.
 - `scripts/extract_questions.py`: highlighted answers to structured JSON, option letters A to H.
 - `scripts/dedup_questions.py`: fuzzy clustering, type-aware, answer conflict flags.
 - `scripts/quiz_schema.py`: validate question types, options, answers, and explanations.
+- `scripts/build_abbreviations.py`: generate the tooltip dictionary from the reference table.
 - `scripts/ocr_vision.swift` and `scripts/ocr.sh`: macOS Vision OCR.
 - `scripts/srt_to_paragraphs.py`: timestamped readable transcripts.
 - `scripts/tts_say.py`: macOS TTS for video narration.
 - `scripts/make_slides.py`: white-theme 1920x1080 slides from a script JSON.
 - `scripts/render_video.py`: segments, intro/outro, concat, AAC/H.264.
-- `scripts/check_site.py`: links, quiz schema, PDF count, artifact scan.
-- `references/01-07`: detailed procedures and guardrails.
-- `references/08-project-brief.md`: question list, defaults, and brief schema.
-- `references/09-format-adapters.md`: supported formats, anchors, converters, and limits.
+- `scripts/check_site.py`: links, quiz, PDF, delivery gates, artifact scan.
+- `references/01-09`: detailed procedures and guardrails.
+- `references/10-delivery-gates.md`: mandatory files, map schema, page blocks, strict gate.
 - `assets/project-brief.example.json`: copyable brief.
 - `assets/site-template/`: offline study-site starter with light and dark modes.
 - `assets/video-template/script.example.json`: video script schema.

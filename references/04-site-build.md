@@ -50,6 +50,18 @@ Check contrast for normal text, muted text, callouts, quiz correct and wrong sta
 - Footer: source note, coverage map, abbreviation list.
 - Reading progress bar at the top.
 
+## Map page
+
+Build `map.html` and a compact map on the index from `assets/map-data.js`.
+
+- Overview cards: category, weight, source range, question count, prerequisites.
+- Matrix: category by process step.
+- Route: reading, practice, and interview steps with minutes.
+- Relationships: direction, target, and mechanism.
+- Index: a compact version of the same data plus a link to `map.html`.
+
+Do not hand-write cards that duplicate the map data. Render from one data file so counts and weights cannot drift.
+
 ## Components
 
 - Callout: 3 px left border, near-white background, uppercase label.
@@ -107,12 +119,21 @@ Verify the PDF page count and question count with PyMuPDF.
 
 ## Abbreviations
 
-- Build a dictionary: abbreviation, expansion, context.
+- The visible table in `reference.html` is the single source of truth. Every abbreviation row has `data-abbr-row`.
+- Generate the tooltip dictionary from that table:
+
+```bash
+python scripts/build_abbreviations.py
+python scripts/build_abbreviations.py --check
+```
+
+- Load `assets/abbreviations.js` before `site.js` on every page.
+- `site.js` reads `window.ABBREVIATIONS`; do not keep a second hardcoded dictionary.
 - Auto-wrap abbreviations in content text nodes.
 - Skip `a`, `button`, `input`, `summary`, `code`, `pre`, `svg`, quiz cards, reference tables, and the glossary.
 - Tooltip on hover, keyboard focus, and tap.
 - Position fixed, clamp to viewport, hide on scroll and Escape.
-- Add a visible abbreviation table for readers who do not hover.
+- Keep the visible table and search box for readers who do not hover.
 
 ## Accessibility
 

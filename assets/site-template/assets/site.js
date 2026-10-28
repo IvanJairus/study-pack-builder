@@ -82,18 +82,13 @@
 
   const main = document.querySelector('main.content') || document.querySelector('.content');
   if (!main) return;
-  const ABBR = {
-    'SLO': 'Service Level Objective',
-    'SLI': 'Service Level Indicator',
-    'SLA': 'Service Level Agreement',
-    'RTO': 'Recovery Time Objective',
-    'RPO': 'Recovery Point Objective',
-    'KPI': 'Key Performance Indicator',
-    'MTTR': 'Mean Time To Recovery',
-    'MTBF': 'Mean Time Between Failures',
-    'API': 'Application Programming Interface'
-  };
+  const DATA = window.ABBREVIATIONS || {};
+  const ABBR = Object.fromEntries(Object.entries(DATA)
+    .filter(([key]) => /^[A-Za-z][A-Za-z0-9]{1,9}$/.test(key))
+    .map(([key, value]) => [key, typeof value === 'string' ? value : value.expansion])
+    .filter(([, value]) => value));
   const keys = Object.keys(ABBR).sort((a, b) => b.length - a.length).map((key) => key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  if (!keys.length) return;
   const pattern = new RegExp('\\b(' + keys.join('|') + ')\\b', 'g');
   const skip = 'a, button, input, select, textarea, summary, code, pre, script, style, svg, .abbr-tip-target, .abbr-tip, .no-tip, #singkatan, .glossary, .quiz-card, .quiz-list, .page-nav, .source-note, .topbar, .sidebar, .mobile-menu, .site-footer, .callout-title, .kicker, .h2-num, .pill, .chip, .btn, .filter-chip, .search-box';
   const walker = document.createTreeWalker(main, NodeFilter.SHOW_TEXT, {

@@ -132,6 +132,8 @@ The skill asks for a short brief before extraction. Start from [assets/project-b
 |---|---|
 | `theme.mode` | `light`, or `dark` / `system` |
 | `exam.question_types` | Inferred from source; mixed types allowed |
+| `ssot` | All primary files when not specified |
+| `confirmed_at` | Must be set after the user confirms the MAKE SURE summary |
 | `outputs.website` | `true` |
 | `outputs.quiz` | `true` |
 | `outputs.print_pdf` | `true` |
@@ -162,12 +164,17 @@ study-pack/
 │   ├── css/style.css
 │   ├── js/site.js
 │   ├── js/quiz.js
-│   └── js/quiz-data.js
+│   ├── js/quiz-data.js
+│   ├── map-data.js
+│   ├── map.js
+│   └── abbreviations.js
 ├── video/
 │   ├── overview.mp4
 │   ├── overview.srt
 │   └── script.md
 └── sumber/
+    ├── project-brief.json
+    ├── source-inventory.json
     ├── coverage-map.md
     └── transcripts/
 ```
@@ -176,8 +183,9 @@ What each output is for:
 
 | Output | Purpose |
 |---|---|
-| `index.html` | Entry point, topic map, study route |
-| `topic-*.html` | One page per major topic, with definitions, tables, formulas, traps, and self-check |
+| `index.html` | Entry point with a compact map, study route, and progress |
+| `map.html` | Full category map with weights, source ranges, question counts, matrix, route, and relationships |
+| `topic-*.html` | One page per major topic, with all required learning blocks |
 | `bank-soal.html` | Interactive quiz with filters, search, shuffle, answer reveal, explanations, and retry-wrong |
 | `question-bank.pdf` | Printable question bank with keys and explanations |
 | `interview.html` | Interview questions, model answers, and instructor advice |
@@ -204,21 +212,45 @@ python scripts/quiz_schema.py assets/js/quiz-data.js
 
 See [examples/synthetic/questions-flexible.json](examples/synthetic/questions-flexible.json) for a complete sample.
 
+## Study map and delivery gates
+
+Every pack has a weighted study map. Edit `assets/map-data.js`:
+
+- 5 to 8 categories plus a foundation page for a real pack.
+- Positive weights that sum to 100.
+- Source range, quiz topic, prerequisites, and one value per process step.
+- A route that moves from reading to practice to interview.
+
+`map.html` renders the full map. `index.html` renders a compact version. The strict gate checks weights, pages, links, matrix cells, question counts, and every topic page.
+
+The brief must be confirmed before extraction. The gate also checks the source inventory, abbreviations, transcripts, requested outputs, coverage map, quiz schema, links, and artifacts:
+
+```bash
+python scripts/check_site.py \
+  --root output \
+  --brief output/sumber/project-brief.json \
+  --quiz output/assets/quiz-data.js \
+  --pdf output/bank-soal/question-bank.pdf \
+  --min-topics 5 \
+  --strict
+```
+
 ## Workflow
 
-1. **Inventory and extract** mixed formats with `normalize_source.py`, PDF/PPTX text, OCR screenshots, and audio transcripts.
-2. **Derive architecture** into 5 to 8 topic clusters, a process matrix, and a coverage map.
+1. **Inventory and extract** mixed formats with `doctor.py`, `source_inventory.py`, and `normalize_source.py`, plus PDF/PPTX text, OCR screenshots, and audio transcripts.
+2. **Derive architecture** into 5 to 8 weighted categories, a process matrix, a study route, and a coverage map.
 3. **Build the question bank**: extract questions, detect highlighted keys, cross-check duplicates, deduplicate by type, and write explanations.
 4. **Extract audio advice** and group it by theme with session timestamps.
 5. **Write content** in a consistent page template: essentials, process, details, traps, self-check, source.
-6. **Build outputs**: static site, quiz, print PDF, video, SRT.
-7. **Verify**: links, answers, counts, responsive layout, quiz interactions, PDF, video, and source coverage.
+6. **Build outputs**: static site, map, quiz, print PDF, video, SRT, and generated abbreviations.
+7. **Verify**: run the strict delivery gate, then open the site and test every learning interaction.
 
 ## Requirements
 
 | Tool | Why |
 |---|---|
-| Python 3.10+ | Scripts |
+| Python 3.10+ | Scripts and delivery gates |
+| `python scripts/doctor.py` | Checks missing tools and prints exact install commands |
 | `pip install -r requirements.txt` | PyMuPDF, python-pptx, Pillow for PDF/PPTX/video |
 | `ffmpeg` and `ffprobe` | Video and audio |
 | Node.js 18+ | npx installer only |
@@ -232,17 +264,21 @@ The text formats TXT, Markdown, HTML, DOCX, EPUB, CSV, TSV, and XLSX use only th
 
 | Script | Use |
 |---|---|
+| `scripts/doctor.py` | Preflight tools and exact install commands |
+| `scripts/source_inventory.py` | SSOT, roles, hashes, support status |
+| `scripts/confirm_brief.py` | Record explicit user confirmation in the brief |
 | `scripts/normalize_source.py` | Mixed formats to JSONL with source refs and a summary |
 | `scripts/extract_pdf.py` | Text per page and TOC |
 | `scripts/extract_questions.py` | Questions and highlighted answers from PDF, A to H |
 | `scripts/dedup_questions.py` | Type-aware fuzzy clustering and answer conflict flags |
 | `scripts/quiz_schema.py` | Validate four question types, options, answers, and explanations |
+| `scripts/build_abbreviations.py` | Generate the tooltip dictionary from the reference table |
 | `scripts/ocr.sh` | macOS Vision OCR |
 | `scripts/srt_to_paragraphs.py` | Readable timestamped transcripts |
 | `scripts/tts_say.py` | macOS TTS and duration measurement |
 | `scripts/make_slides.py` | White-theme 1920x1080 slides |
 | `scripts/render_video.py` | Segments, intro/outro, concat, H.264/AAC |
-| `scripts/check_site.py` | Links, quiz schema, PDF count, artifact scan |
+| `scripts/check_site.py` | Links, quiz, PDF, map, structure, brief, inventory, and artifact gate |
 
 Example checks:
 
@@ -259,7 +295,7 @@ Run the repository tests:
 npm test
 ```
 
-The test suite covers the four question types, type-aware deduplication, answer conflicts, XML safety, and normalization for TXT, Markdown, HTML, DOCX, EPUB, CSV, and XLSX.
+The test suite covers the four question types, type-aware deduplication, answer conflicts, XML safety, normalization for TXT, Markdown, HTML, DOCX, EPUB, CSV, and XLSX, plus the strict delivery gate, inventory roles, abbreviation sync, and brief confirmation.
 
 ## Guardrails
 
@@ -282,7 +318,8 @@ study-pack-builder/
 ├── references/
 │   ├── 01-source-extraction.md ... 07-guardrails.md
 │   ├── 08-project-brief.md
-│   └── 09-format-adapters.md
+│   ├── 09-format-adapters.md
+│   └── 10-delivery-gates.md
 ├── assets/
 │   ├── project-brief.example.json
 │   ├── site-template/
@@ -295,7 +332,7 @@ The installed skill does not copy `package.json`, `bin/`, or this README. It cop
 
 ## Bahasa Indonesia
 
-Jalankan `npx github:IvanJairus/study-pack-builder`, lalu gunakan `/study-pack-builder`. Input berupa folder campuran PDF, PPTX, DOCX, TXT, Markdown, HTML, EPUB, CSV, XLSX, audio, dan soal. Output berupa website belajar, bank soal empat tipe, PDF, video bersuara, dan peta cakupan sumber.
+Jalankan `npx github:IvanJairus/study-pack-builder`, lalu gunakan `/study-pack-builder`. Input berupa folder campuran PDF, PPTX, DOCX, TXT, Markdown, HTML, EPUB, CSV, XLSX, audio, dan soal. Output berupa website belajar dengan peta berbobot, bank soal empat tipe, PDF, video bersuara, dan peta cakupan sumber. Brief wajib dikonfirmasi dan gate `--strict` wajib lulus sebelum delivery.
 
 ## License
 

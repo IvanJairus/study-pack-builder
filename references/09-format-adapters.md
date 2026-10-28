@@ -5,10 +5,11 @@
 Turn every text-bearing source into one JSONL stream with a stable reference before the agent writes summaries. The normalized file is working data. Do not ship it as the final deliverable.
 
 ```bash
+python scripts/source_inventory.py sources/ --out sumber/source-inventory.json --brief sumber/project-brief.json
 python scripts/normalize_source.py sources/ --out working/normalized.jsonl
 ```
 
-The script writes `working/normalized.jsonl` and `working/normalized.summary.json`. Debug lines go to stderr and show each file, record count, character count, converter, and error.
+The inventory records SSOT, roles, hashes, adapters, and unsupported files. The normalizer writes `working/normalized.jsonl` and `working/normalized.summary.json`. Debug lines go to stderr and show each file, record count, character count, converter, and error.
 
 ## Record schema
 

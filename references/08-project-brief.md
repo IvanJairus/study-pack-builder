@@ -15,7 +15,8 @@ Ask these in one batch. Accept defaults when the user does not care.
 5. **Video:** If yes, how many minutes, which voice, and do you want subtitles?
 6. **Theme:** Light, dark, or system? Keep the default light if the user is unsure.
 7. **Audio and exclusions:** May the recordings be transcribed? Which files or formats should be ignored?
-8. **Distribution:** Public or private? Are there confidentiality, naming, or attribution constraints?
+8. **SSOT and roles:** Which file or pattern is the authoritative source? Which files are assessment, secondary, or ignored?
+9. **Distribution:** Public or private? Are there confidentiality, naming, or attribution constraints?
 
 ## Defaults
 
@@ -31,6 +32,7 @@ Ask these in one batch. Accept defaults when the user does not care.
 | Interview guide | On if the exam includes an interview |
 | Transcripts | On when audio is transcribed |
 | Site | Offline, no CDN |
+| SSOT | All primary files when the user does not choose |
 
 ## Brief schema
 
@@ -70,8 +72,15 @@ Ask these in one batch. Accept defaults when the user does not care.
     "transcribe": true,
     "notes": "exam advice only"
   },
+  "ssot": ["materi-utama*"],
+  "source_roles": [
+    {"pattern": "*soal*", "role": "assessment"},
+    {"pattern": "*.m4a", "role": "secondary"}
+  ],
   "ignore": ["diagrams", "legacy HTML"],
-  "constraints": ["no proprietary content in public examples"]
+  "constraints": ["no proprietary content in public examples"],
+  "confirmed_at": null,
+  "confirmed_by": null
 }
 ```
 
@@ -87,6 +96,32 @@ Use `assets/project-brief.example.json` as a copyable starting point.
 6. Skip the print PDF when `outputs.print_pdf` is false.
 7. Set the site `data-mode` to the chosen theme.
 8. At the end, report which optional outputs were intentionally skipped.
+
+## Confirmation gate
+
+After the brief is filled, show a MAKE SURE summary:
+
+1. SSOT and number of source files.
+2. Requested outputs and skipped outputs.
+3. Language, theme, video, and transcripts.
+4. Privacy and distribution limits.
+
+Wait for an explicit yes. Then record it:
+
+```bash
+python scripts/confirm_brief.py sumber/project-brief.json --by "user" --note "confirmed in chat"
+```
+
+The delivery gate refuses an unconfirmed brief. If the user changes a choice later, update the brief and confirm it again with `--force`.
+
+## Source roles and SSOT
+
+- `primary`: content sources that define the material.
+- `assessment`: question files, answer keys, and forms.
+- `secondary`: audio, screenshots, and supporting files.
+- `ignored`: files excluded by the brief.
+
+`ssot` is a list of paths or glob patterns. If it is empty or omitted, every primary file becomes the SSOT. The source inventory records the hashes and the role of every file.
 
 ## Theme modes
 

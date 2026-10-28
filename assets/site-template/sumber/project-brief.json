@@ -1,0 +1,52 @@
+{
+  "goal": "validate the starter template with synthetic material",
+  "sources": "../../examples/synthetic/source.md",
+  "output": ".",
+  "language": "en",
+  "exam": {
+    "questions": 5,
+    "minutes": 15,
+    "question_types": [
+      "single_choice",
+      "multiple_choice",
+      "true_false",
+      "short_answer"
+    ],
+    "interview": true
+  },
+  "outputs": {
+    "website": true,
+    "quiz": true,
+    "print_pdf": false,
+    "video": false,
+    "interview_guide": true,
+    "transcripts": false
+  },
+  "theme": {
+    "mode": "light",
+    "accent": "green",
+    "offline": true
+  },
+  "video": {
+    "enabled": false,
+    "minutes": 5,
+    "voice": "Samantha",
+    "language": "en",
+    "subtitles": false
+  },
+  "audio": {
+    "transcribe": false,
+    "notes": ""
+  },
+  "ssot": [
+    "source.md"
+  ],
+  "source_roles": [],
+  "ignore": [],
+  "constraints": [
+    "synthetic data only"
+  ],
+  "confirmed_at": "2026-10-28T00:00:00+00:00",
+  "confirmed_by": "template",
+  "confirmation_note": "Starter template sample; replace with the user's confirmed brief."
+}

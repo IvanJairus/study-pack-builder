@@ -1,0 +1,30 @@
+{
+  "generated_at": "2026-10-28T00:00:00+00:00",
+  "base": ".",
+  "ssot": [
+    "source.md"
+  ],
+  "counts": {
+    "files": 1,
+    "primary": 1,
+    "assessment": 0,
+    "secondary": 0,
+    "ignored": 0,
+    "unsupported": 0
+  },
+  "sources": [
+    {
+      "path": "source.md",
+      "format": "md",
+      "size": 1074,
+      "sha256": "b25e8e9a3caf9fdced397e57aac0b2f86c5b1b9f5dc5d9b99dff6f05f338768b",
+      "supported": true,
+      "adapter": "normalize_source:text",
+      "role": "primary",
+      "units": 5
+    }
+  ],
+  "ignored": [],
+  "missing": [],
+  "errors": 0
+}
