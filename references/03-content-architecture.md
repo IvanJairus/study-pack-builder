@@ -56,6 +56,13 @@ Add a "traps" section. The most useful traps come from the question bank and the
 
 Create `map.html` and a compact map on the index. The map is data-driven from `assets/map-data.js`, not hand-written cards.
 
+The map has four layers:
+
+1. Outer layer: categories, weights, source ranges, and magnitude.
+2. Big ideas: the main points that define each category.
+3. Details: concepts, definitions, formulas, traps, and source refs.
+4. Practice: question volume and the route to the quiz and interview.
+
 Each category declares:
 
 - `title`, `slug`, `page`, `kind`
@@ -63,9 +70,14 @@ Each category declares:
 - `source`: slide, page, line, or row range
 - `quiz_topic`: the topic name used by the quiz
 - `prerequisites`: slugs that should be read first
+- `magnitude`: slides, concepts, formulas, and minutes
+- `big_ideas`: two to six main points, with weights summing to 100
+- `connections`: target category, relation, and mechanism
 - `matrix`: one non-empty value per process step
 
-The map also declares the shared `process`, a `route` of reading, practice, and interview steps with minutes, and `relationships` between categories. The index shows a compact version. `map.html` shows overview cards, the category by process matrix, the route, and the relationship table.
+Each big idea declares a title, summary, weight, and at least two concepts. Each concept declares a title, one-line gist, and source ref. A formula or trap is optional but valuable.
+
+`map.html` shows the layer strip, category cards with magnitude, a spoiler tree of big ideas and concepts, the matrix, the route, and the relationship table. Big ideas are visible by default; concepts stay collapsed until opened. The index shows the layer strip and category cards.
 
 The matrix is often the single most useful page for revision. The weights are the study plan: they tell the learner where to spend time and how much practice volume a category has.
 

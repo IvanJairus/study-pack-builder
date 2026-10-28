@@ -240,6 +240,13 @@ def check_map(root: Path, questions, min_topics):
     if not isinstance(topics, list) or len(topics) < min_topics:
         errors.append(f"map must have at least {min_topics} categories")
         topics = topics if isinstance(topics, list) else []
+    layers = data.get("layers")
+    if not isinstance(layers, list) or len(layers) < 3:
+        errors.append("map needs at least three layers")
+        layers = []
+    for layer in layers:
+        if not isinstance(layer, dict) or not str(layer.get("title") or "").strip() or not str(layer.get("description") or "").strip():
+            errors.append("every map layer needs a title and description")
     process = data.get("process")
     if not isinstance(process, list) or len(process) < 3:
         errors.append("map.process needs at least three steps")
@@ -282,6 +289,61 @@ def check_map(root: Path, questions, min_topics):
             for step in process:
                 if not str(matrix.get(step) or "").strip():
                     errors.append(f"{slug}: matrix has no value for {step}")
+        magnitude = topic.get("magnitude")
+        if not isinstance(magnitude, dict):
+            errors.append(f"{slug}: magnitude is missing")
+        else:
+            for field in ("slides", "concepts"):
+                if not isinstance(magnitude.get(field), int) or magnitude.get(field) < 1:
+                    errors.append(f"{slug}: magnitude.{field} must be a positive integer")
+            if not isinstance(magnitude.get("formulas"), int) or magnitude.get("formulas") < 0:
+                errors.append(f"{slug}: magnitude.formulas must be zero or a positive integer")
+        big_ideas = topic.get("big_ideas")
+        if not isinstance(big_ideas, list) or len(big_ideas) < 2:
+            errors.append(f"{slug}: needs at least two big ideas")
+            big_ideas = []
+        idea_weights = 0
+        concept_total = 0
+        for idea_index, idea in enumerate(big_ideas, 1):
+            if not isinstance(idea, dict):
+                errors.append(f"{slug}: big idea {idea_index} is not an object")
+                continue
+            if not str(idea.get("title") or "").strip() or not str(idea.get("summary") or "").strip():
+                errors.append(f"{slug}: big idea {idea_index} needs a title and summary")
+            idea_weight = idea.get("weight")
+            if not isinstance(idea_weight, (int, float)) or idea_weight <= 0:
+                errors.append(f"{slug}: big idea {idea_index} needs a positive weight")
+            else:
+                idea_weights += idea_weight
+            concepts = idea.get("concepts")
+            if not isinstance(concepts, list) or len(concepts) < 2:
+                errors.append(f"{slug}: big idea {idea_index} needs at least two concepts")
+                concepts = []
+            for concept in concepts:
+                concept_total += 1
+                if not isinstance(concept, dict):
+                    errors.append(f"{slug}: concept is not an object")
+                    continue
+                for field in ("title", "gist", "source"):
+                    if not str(concept.get(field) or "").strip():
+                        errors.append(f"{slug}: concept in big idea {idea_index} has empty {field}")
+        if big_ideas and abs(idea_weights - 100) > 0.5:
+            errors.append(f"{slug}: big idea weights sum to {idea_weights}, expected 100")
+        if isinstance(magnitude, dict) and magnitude.get("concepts") != concept_total:
+            errors.append(f"{slug}: magnitude.concepts {magnitude.get('concepts')} does not match {concept_total} concepts")
+        connections = topic.get("connections")
+        if not isinstance(connections, list) or not connections:
+            errors.append(f"{slug}: connections are missing")
+        else:
+            for connection in connections:
+                if not isinstance(connection, dict):
+                    errors.append(f"{slug}: connection is not an object")
+                    continue
+                if connection.get("to") not in {item.get("slug") for item in topics if isinstance(item, dict)}:
+                    errors.append(f"{slug}: unknown connection target {connection.get('to')!r}")
+                for field in ("relation", "mechanism"):
+                    if not str(connection.get(field) or "").strip():
+                        errors.append(f"{slug}: connection has empty {field}")
         for prerequisite in topic.get("prerequisites") or []:
             if prerequisite not in {item.get("slug") for item in topics if isinstance(item, dict)}:
                 errors.append(f"{slug}: unknown prerequisite {prerequisite}")
@@ -307,7 +369,7 @@ def check_map(root: Path, questions, min_topics):
     map_page = root / "map.html"
     if map_page.exists():
         markup = map_page.read_text(encoding="utf-8", errors="ignore")
-        for view in ("overview", "matrix", "route", "relationships"):
+        for view in ("layers", "overview", "concepts", "matrix", "route", "relationships"):
             if f'data-study-map="{view}"' not in markup:
                 errors.append(f"map.html has no {view} view")
     for topic in topics:

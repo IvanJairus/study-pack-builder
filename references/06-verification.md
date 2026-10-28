@@ -57,7 +57,7 @@ Check:
 - Quiz filters, search, shuffle, check, retry, list mode, and progress persistence.
 - Single choice, multiple choice, true or false, and short answer all work.
 - Multiple choice requires the exact set; short answer accepts listed variants.
-- The map renders overview, matrix, route, and relationships at 390 px and 1440 px.
+- The map renders layers, category magnitude, a spoiler concept tree, matrix, route, and relationships at 390 px and 1440 px.
 - Every map category links to an existing page with a source range.
 - Tooltips resolve from `assets/abbreviations.js`, and the reference search works.
 - Abbreviation tooltip on hover, keyboard focus, and tap.
@@ -82,7 +82,7 @@ Check:
 | Source | inventory SSOT and coverage map complete |
 | Questions | raw and unique counts match the cluster output; every ID mapped once |
 | Answers | 0 missing, 0 not in options, 0 invalid type |
-| Map | weights sum to 100; every category page exists; matrix complete |
+| Map | layers, magnitude, big ideas, concepts, connections; weights sum to 100; pages exist |
 | Structure | core blocks and source range on every topic page; recommended blocks reviewed |
 | Abbreviations | generated file matches the table; search works |
 | Site | 0 broken links, 0 console errors |

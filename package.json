@@ -1,7 +1,7 @@
 {
   "name": "study-pack-builder",
-  "version": "1.4.0",
-  "description": "Install the Study Pack Builder agent skill: doctor and source inventory, weighted study map, structured topic gates, flexible quiz, printable PDF, narrated video, and strict delivery verification.",
+  "version": "1.5.0",
+  "description": "Install the Study Pack Builder agent skill: layered concept map with spoilers, doctor and source inventory, structured topic gates, flexible quiz, printable PDF, narrated video, and strict delivery verification.",
   "bin": {
     "study-pack-builder": "bin/cli.js"
   },

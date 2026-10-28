@@ -184,7 +184,7 @@ What each output is for:
 | Output | Purpose |
 |---|---|
 | `index.html` | Entry point with a compact map, study route, and progress |
-| `map.html` | Full category map with weights, source ranges, question counts, matrix, route, and relationships |
+| `map.html` | Layered concept map with magnitude, big ideas, concepts, matrix, route, and relationships |
 | `topic-*.html` | One page per major topic, with all required learning blocks |
 | `bank-soal.html` | Interactive quiz with filters, search, shuffle, answer reveal, explanations, and retry-wrong |
 | `question-bank.pdf` | Printable question bank with keys and explanations |
@@ -214,14 +214,17 @@ See [examples/synthetic/questions-flexible.json](examples/synthetic/questions-fl
 
 ## Study map and delivery gates
 
-Every pack has a weighted study map. Edit `assets/map-data.js`:
+Every pack has a layered study map. Edit `assets/map-data.js`:
 
 - 5 to 8 categories plus a foundation page for a real pack.
 - Positive weights that sum to 100.
-- Source range, quiz topic, prerequisites, and one value per process step.
+- A magnitude for every category: slides, concepts, formulas, and minutes.
+- Big ideas with weights that sum to 100 per category.
+- Concepts under each big idea, with a one-line gist and source ref.
+- Connections between categories, plus one value per process step.
 - A route that moves from reading to practice to interview.
 
-`map.html` renders the full map. `index.html` renders a compact version. The strict gate checks weights, pages, links, matrix cells, question counts, and every topic page.
+`map.html` renders the full map from the outside in. The outer layer shows categories and magnitude. The middle layer opens big ideas. The inner layer reveals concepts, formulas, and traps like a spoiler. `index.html` renders a compact version. The strict gate checks layers, big ideas, concepts, weights, pages, links, matrix cells, question counts, and every topic page.
 
 The brief must be confirmed before extraction. The gate also checks the source inventory, abbreviations, transcripts, requested outputs, coverage map, quiz schema, links, and artifacts:
 
@@ -295,7 +298,7 @@ Run the repository tests:
 npm test
 ```
 
-The test suite covers the four question types, type-aware deduplication, answer conflicts, XML safety, normalization for TXT, Markdown, HTML, DOCX, EPUB, CSV, and XLSX, plus the strict delivery gate, inventory roles, abbreviation sync, and brief confirmation.
+The test suite covers the four question types, type-aware deduplication, answer conflicts, XML safety, normalization for TXT, Markdown, HTML, DOCX, EPUB, CSV, and XLSX, plus the strict delivery gate, layered map validation, inventory roles, abbreviation sync, and brief confirmation.
 
 ## Guardrails
 

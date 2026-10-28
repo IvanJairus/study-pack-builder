@@ -26,7 +26,7 @@ If the command fails, fix the pack. Do not report completion.
 | `sumber/source-inventory.json` | SSOT, roles, hashes, support status |
 | `sumber/coverage-map.md` | Source ref to output page |
 | `map.html` | Full study map |
-| `assets/map-data.js` | Category weights, matrix, route, relationships |
+| `assets/map-data.js` | Layers, category magnitude, big ideas, concepts, matrix, route, relationships |
 | `assets/map.js` | Renders map views |
 | `assets/abbreviations.js` | Generated tooltip dictionary |
 | `index.html` | Entry point with a compact map |
@@ -77,7 +77,13 @@ The inventory records:
 ```js
 window.STUDY_MAP = {
   title: "Study map",
-  subtitle: "How to move through the pack.",
+  subtitle: "Read from the outside in.",
+  layers: [
+    { id: "outer", title: "Outer layer", description: "Categories and magnitude." },
+    { id: "middle", title: "Big ideas", description: "The main points." },
+    { id: "inner", title: "Details", description: "Concepts and traps." },
+    { id: "practice", title: "Practice", description: "Questions and interview." }
+  ],
   process: ["Identify", "Measure", "Monitor", "Respond"],
   topics: [
     {
@@ -91,6 +97,21 @@ window.STUDY_MAP = {
       quiz_topic: "Liquidity",
       prerequisites: ["foundation"],
       accent: "#34567f",
+      magnitude: { slides: 36, concepts: 9, formulas: 2, minutes: 20 },
+      big_ideas: [
+        {
+          title: "Three dimensions",
+          summary: "Profile, short-term, and long-term adequacy.",
+          weight: 30,
+          concepts: [
+            { title: "LCR", gist: "HQLA divided by net cash outflow.", formula: "LCR = HQLA / NCO", source: "Slide 142-148" },
+            { title: "NSFR", gist: "ASF divided by RSF.", formula: "NSFR = ASF / RSF", source: "Slide 148-154" }
+          ]
+        }
+      ],
+      connections: [
+        { to: "credit", relation: "affected by", mechanism: "Defaults reduce cash inflow." }
+      ],
       matrix: {
         Identify: "Cash-flow gaps",
         Measure: "LCR and NSFR",
@@ -111,16 +132,23 @@ window.STUDY_MAP = {
 Rules:
 
 - 5 to 8 topic categories plus a foundation page for a real pack.
-- Weights are positive and sum to 100.
+- At least three layers, each with a title and description.
+- Category weights are positive and sum to 100.
 - Every `page` exists.
 - Every matrix step has a non-empty value.
+- Every category has a magnitude with positive slides and concepts, and a non-negative formula count.
+- Every category has at least two big ideas. Their weights sum to 100.
+- Every big idea has at least two concepts. Each concept has a title, gist, and source.
+- `magnitude.concepts` equals the total number of concepts in the category.
+- Every connection target is a known slug and has a relation and mechanism.
 - Every prerequisite points to a known slug.
 - Every `quiz_topic` matches the quiz data and has at least one question.
 - The route covers reading, practice, and interview.
 - `index.html` has `data-topic-map` and a compact map.
-- `map.html` has overview, matrix, route, and relationships views.
+- `map.html` has layers, overview, concepts, matrix, route, and relationships views.
+- Big ideas are visible; concepts are collapsed by default, with a control to open all.
 
-The map is not decoration. It decides what to study first, how much weight a category deserves, and where practice volume comes from.
+The map is not decoration. It is the spoiler: the learner reads the outer layer, opens a big idea, then reads the concepts only when needed.
 
 ## Topic page structure
 
@@ -159,7 +187,7 @@ The generated `assets/abbreviations.js` is loaded before `site.js` on every page
 |---|---|
 | Brief | Confirmed, complete, requested outputs exist |
 | Inventory | SSOT present, hashes valid, every role valid |
-| Map | Categories, weights, matrix, pages, links |
+| Map | Layers, categories, magnitude, big ideas, concepts, connections, pages, links |
 | Structure | Core blocks and source range on every topic page |
 | Abbreviations | Generated file matches the table and is used by site.js |
 | Coverage | `sumber/coverage-map.md` exists and has a table |

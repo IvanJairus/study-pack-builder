@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Regression tests for delivery gates, inventory, and abbreviation sync."""
 import json
+import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -48,6 +50,27 @@ class DeliveryTests(unittest.TestCase):
             )
             self.assertEqual(result.returncode, 1)
             self.assertIn("not confirmed", result.stdout)
+
+    def test_map_without_big_ideas_fails(self):
+        with tempfile.TemporaryDirectory() as directory:
+            site = Path(directory) / "site"
+            shutil.copytree(TEMPLATE, site)
+            map_path = site / "assets" / "map-data.js"
+            text = map_path.read_text(encoding="utf-8")
+            match = re.search(r"window\.STUDY_MAP\s*=\s*(\{.*\})\s*;", text, re.S)
+            data = json.loads(match.group(1))
+            data["topics"][0].pop("big_ideas", None)
+            map_path.write_text("window.STUDY_MAP = " + json.dumps(data, ensure_ascii=False, indent=2) + ";\n", encoding="utf-8")
+            result = self.run_cli(
+                ROOT / "scripts" / "check_site.py",
+                "--root", site,
+                "--brief", site / "sumber" / "project-brief.json",
+                "--quiz", site / "assets" / "quiz-data.js",
+                "--min-topics", 2,
+                "--strict",
+            )
+            self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+            self.assertIn("needs at least two big ideas", result.stdout)
 
     def test_inventory_roles_and_ssot(self):
         with tempfile.TemporaryDirectory() as directory:

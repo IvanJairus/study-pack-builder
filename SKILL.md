@@ -1,6 +1,6 @@
 ---
 name: study-pack-builder
-description: Build a complete study pack from mixed local sources such as PDF, PPTX, DOCX, HTML, EPUB, TXT, Markdown, CSV, XLSX, audio recordings, and question banks. Use when the user wants a structured study website with a weighted map, a deduplicated exam question bank with explanations, a printable PDF, narrated video, interview notes, source inventory, or a repeatable pipeline with strict delivery gates.
+description: Build a complete study pack from mixed local sources such as PDF, PPTX, DOCX, HTML, EPUB, TXT, Markdown, CSV, XLSX, audio recordings, and question banks. Use when the user wants a structured study website with a layered concept map, a deduplicated exam question bank with explanations, a printable PDF, narrated video, interview notes, source inventory, or a repeatable pipeline with strict delivery gates.
 ---
 
 # Study Pack Builder
@@ -80,11 +80,13 @@ Derive topics from the source, not from a fixed template.
 
 - Group material into 5 to 8 major clusters plus a foundation/orientation page.
 - Give every cluster a weight. Weights are positive integers and must sum to 100.
+- For each cluster, write big ideas and the concepts under them. Big idea weights sum to 100 per cluster, and each concept has a one-line gist and source ref.
+- Add magnitude: slides, concepts, formulas, and minutes per cluster.
 - Build one matrix: clusters x the source's recurring process (for example identify, measure, monitor, communicate).
-- Add a relationship map for cross-topic effects.
+- Add connections and a relationship map for cross-topic effects.
 - Map every slide, page, paragraph, line range, or table row to exactly one output page.
 - Identify cross-cutting themes such as regulation, climate, cyber, or reporting.
-- Write the map to `assets/map-data.js` and render it in `map.html` and the index. The map must show weight, source range, question count, prerequisites, and a study route.
+- Write the map to `assets/map-data.js` and render it in `map.html` and the index. The map must work as a spoiler: show layers, categories, magnitude, big ideas, concepts, relationships, and a study route.
 
 Read `references/03-content-architecture.md` for page structure and coverage mapping.
 
@@ -158,7 +160,7 @@ It checks:
 
 - Brief confirmation and every requested output.
 - Source inventory, SSOT, roles, and hashes.
-- Map categories, weights, matrix, pages, and links.
+- Map layers, categories, magnitude, big ideas, concepts, connections, pages, and links.
 - Core and recommended learning blocks on every topic page.
 - Abbreviation table and generated dictionary in sync.
 - Coverage map, transcripts, and video when requested.
@@ -210,7 +212,7 @@ study-pack/
 | Source formats | Every supported source is normalized or explicitly skipped; summary errors are reviewed |
 | Brief | Confirmed by the user, all requested outputs exist |
 | Inventory | SSOT is present, hashes valid, every role valid |
-| Map | 5 to 8 categories, weights sum to 100, matrix complete, all pages exist |
+| Map | Layers, categories, magnitude, big ideas, concepts, connections, weights sum to 100, all pages exist |
 | Structure | Core blocks and source range on every topic page |
 | Abbreviations | Generated file matches the reference table and is used by site.js |
 | Coverage | `sumber/coverage-map.md` exists and has a table |
