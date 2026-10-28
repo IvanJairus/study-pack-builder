@@ -10,5 +10,7 @@ A correct run on this synthetic example should produce:
 - Every raw question ID appears exactly once in the cluster output.
 - Each unique question has a valid answer for its type, an explanation, and a trap.
 - `questions-flexible.json` validates with single choice, multiple choice, true or false, and short answer examples, including a five-option multiple choice and a three-option single choice.
+- A weighted study map with categories, source ranges, question counts, and a route.
 - A coverage map that links the synthetic source sections to the site pages.
+- A generated abbreviation dictionary that matches the visible reference table.
 - `normalize_source.py` turns text sources into JSONL with line or paragraph refs, and spreadsheet rows keep their physical row numbers.
