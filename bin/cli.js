@@ -269,9 +269,11 @@ function main() {
 
   const installed = results.filter((result) => result.status === 'installed' || result.status === 'updated');
   const skipped = results.filter((result) => result.status === 'skipped');
+  const planned = results.filter((result) => result.status.startsWith('would-'));
   if (installed.length) console.log(`\nInstalled: ${installed.map((result) => result.id).join(', ')}`);
   if (skipped.length) console.log(`Skipped:   ${skipped.map((result) => result.id).join(', ')}`);
-  if (!installed.length && !skipped.length) return 1;
+  if (planned.length) console.log(`Planned:   ${planned.map((result) => result.id).join(', ')}`);
+  if (!installed.length && !skipped.length && !planned.length) return 1;
 
   console.log(`\nNext: reload skills in each agent, then invoke /${SKILL_NAME}`);
   return 0;
