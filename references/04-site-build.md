@@ -64,21 +64,33 @@ Check contrast for normal text, muted text, callouts, quiz correct and wrong sta
 
 Data schema: see `references/02-question-bank.md`. The quiz should support:
 
-- Topic filters and search.
+- Four types: single choice, multiple choice, true or false, and short answer.
+- At least two options per choice question, with 8 or fewer recommended. Do not hardcode A to D.
+- Topic filters and search across questions, options, and accepted answers.
 - Shuffle order.
-- Select an option, then check the answer.
-- Show explanation and trap after checking.
-- Retry only wrong questions.
-- List mode for review and print.
+- Check the answer, then show the explanation and trap.
+- Multiple choice requires the exact set of correct keys, not a subset.
+- Short answer compares normalized text against `accepted_answers`.
+- Retry only wrong questions. The retry pool contains only those questions until the filter or search changes.
+- List mode for review and print, including accepted answers for short answer.
 - Local progress in `localStorage`.
-- Keyboard shortcuts: A to D, Enter to check or advance.
-- No tooltips inside option buttons.
+- Keyboard shortcuts for visible option keys and Enter to check or advance.
+- No tooltips inside option buttons or the answer input.
+
+Validate the data before opening the page:
+
+```bash
+python scripts/quiz_schema.py assets/quiz-data.js
+```
 
 Avoid these bugs:
 
 - Do not recompute a shuffled order on every render. Store the order.
 - Do not let status counts exceed the active filter.
 - Do not attach tooltips to elements that are clicked for selection.
+- Do not compare a multiple choice array to a string key.
+- Do not auto-check a short answer on every keystroke. Wait for Check.
+- Do not lose focus while typing a short answer.
 
 ## Print PDF
 

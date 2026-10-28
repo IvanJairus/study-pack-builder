@@ -81,15 +81,18 @@ List directional effects. Example format:
 
 ## Coverage map
 
-Create a source-to-output table:
+Create a source-to-output table. Use the `ref` from `working/normalized.jsonl` when the source is not a slide deck:
 
-| Source range | Content | Output page | Status |
-|---|---|---|---|
-| Slides 1-37 | Foundations | foundation.html | covered |
-| Slides 38-81 | Cluster 1 | topic-01.html | covered |
-| Audio session 1 | Exam advice | interview.html | covered |
+| Source | Ref | Content | Output page | Status |
+|---|---|---|---|---|
+| Slides 1-37 | slide:1-37 | Foundations | foundation.html | covered |
+| Slides 38-81 | slide:38-81 | Cluster 1 | topic-01.html | covered |
+| handout.docx | paragraph:12 | Shared definition | foundation.html | covered |
+| bank.xlsx | Liquidity!row:7 | LCR question | bank-soal.html | covered |
+| notes.md | line:20-22 | Exam advice | interview.html | covered |
+| Audio session 1 | 00:14:20 | Interview hint | interview.html | covered |
 
-Every slide/page range must have a destination or be marked as non-content, such as a cover or thank-you slide.
+Every slide, page, paragraph, line range, and table row must have a destination or be marked as non-content, such as a cover or thank-you slide. The coverage map is the audit trail. A normalized record that appears nowhere is an omission.
 
 ## Naming
 

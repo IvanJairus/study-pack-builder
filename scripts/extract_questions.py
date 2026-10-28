@@ -104,6 +104,7 @@ def parse_pdf(path: Path):
                 questions.append(current)
             current = {
                 "no": int(start.group(1)),
+                "type": "single_choice",
                 "section": section,
                 "stem": [start.group(2)],
                 "options": {},
@@ -118,7 +119,7 @@ def parse_pdf(path: Path):
         if current is None:
             continue
 
-        option = re.match(r"^([A-D])[.)]\s*(.*)$", text)
+        option = re.match(r"^([A-H])[.)]\s*(.*)$", text)
         if option:
             key = option.group(1)
             if key not in current["options"]:
@@ -136,7 +137,7 @@ def parse_pdf(path: Path):
             current["notes"].append({"option": last_option, "text": clean(text)})
             continue
 
-        if line["green"] > 0.15 or (line["italic"] and not text.startswith(("A.", "B.", "C.", "D."))):
+        if line["green"] > 0.15 or (line["italic"] and not re.match(r"^[A-H][.)]\s", text)):
             current["notes"].append({"option": last_option, "text": clean(line["italic"] or text)})
             continue
 

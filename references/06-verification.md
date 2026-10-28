@@ -6,21 +6,24 @@ Do not claim completion from a successful build alone. Verify the state, not the
 
 ## Source coverage
 
-- Every slide/page appears in the coverage map.
+- Every slide, page, paragraph, line range, and table row appears in the coverage map or is marked as non-content.
 - Every audio session has a transcript or a documented reason for omission.
-- Every output page has a source range.
+- Every output page has a source range or normalized ref.
 
 ## Question bank
 
 ```bash
+python scripts/quiz_schema.py output/assets/js/quiz-data.js
 python scripts/check_site.py --root output --quiz output/assets/js/quiz-data.js --pdf output/bank-soal/question-bank.pdf
 ```
 
 Check:
 
-- Unique IDs.
-- Four options per question.
-- Answer exists among the options.
+- Unique IDs and a non-empty topic for every question.
+- At least two options for choice questions, with uppercase keys.
+- Single answer is in the options; multiple answer is an array of at least two valid keys.
+- True or false answer is a boolean.
+- Short answer has at least one accepted variant.
 - Explanation and trap are non-empty.
 - Every raw question ID appears exactly once.
 - Frequency matches the source count.
@@ -39,6 +42,8 @@ Check:
 - CSS and JS are versioned when changed.
 - No dead buttons.
 - Quiz filters, search, shuffle, check, retry, list mode, and progress persistence.
+- Single choice, multiple choice, true or false, and short answer all work.
+- Multiple choice requires the exact set; short answer accepts listed variants.
 - Abbreviation tooltip on hover, keyboard focus, and tap.
 - No tooltips inside quiz options and reference tables.
 - Mobile 390 px and desktop 1440 px.
@@ -57,9 +62,9 @@ Check:
 
 | Area | Required evidence |
 |---|---|
-| Source | coverage map complete |
-| Questions | 120 raw, 70 unique, every ID mapped once |
-| Answers | 0 missing, 0 not in options |
+| Source | coverage map complete for every normalized ref |
+| Questions | raw and unique counts match the cluster output; every ID mapped once |
+| Answers | 0 missing, 0 not in options, 0 invalid type |
 | Site | 0 broken links, 0 console errors |
 | Mobile | 390 px screenshot checked |
 | Desktop | 1440 px screenshot checked |

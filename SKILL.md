@@ -1,6 +1,6 @@
 ---
 name: study-pack-builder
-description: Build a complete study pack from mixed local sources such as PDF or PPTX slides, audio recordings, and question banks. Use when the user wants a structured study website, a deduplicated exam question bank with explanations, a printable PDF, a narrated overview video, interview notes, or a repeatable source-to-study-pack pipeline with verification.
+description: Build a complete study pack from mixed local sources such as PDF, PPTX, DOCX, HTML, EPUB, TXT, Markdown, CSV, XLSX, audio recordings, and question banks. Use when the user wants a structured study website, a deduplicated exam question bank with explanations, a printable PDF, a narrated overview video, interview notes, or a repeatable source-to-study-pack pipeline with verification.
 ---
 
 # Study Pack Builder
@@ -48,6 +48,7 @@ Defaults: source language, light theme, video off unless requested, 5 minutes wh
 Create a source inventory before writing content.
 
 - List file types, counts, pages, durations, and whether text is selectable.
+- When the folder contains TXT, Markdown, HTML, DOCX, DOC, RTF, EPUB, CSV, TSV, or XLSX, run `scripts/normalize_source.py` to produce one JSONL stream with stable refs.
 - Extract PDF text per page with `scripts/extract_pdf.py`.
 - Extract PPTX text and speaker notes with `python-pptx`.
 - OCR image-only PDFs and screenshots with `scripts/ocr.sh` on macOS Vision, or Tesseract elsewhere.
@@ -55,7 +56,11 @@ Create a source inventory before writing content.
 - Convert SRT to readable timestamped paragraphs with `scripts/srt_to_paragraphs.py`.
 - Keep raw extraction in a working directory, never in the final deliverable.
 
-Read `references/01-source-extraction.md` for commands, fallbacks, and failure modes.
+```bash
+python scripts/normalize_source.py sources/ --out working/normalized.jsonl
+```
+
+Read `references/01-source-extraction.md` for commands and `references/09-format-adapters.md` for the JSONL schema, anchors, converters, and format limits.
 
 ### 2. Derive the study architecture
 
@@ -71,15 +76,16 @@ Read `references/03-content-architecture.md` for page structure and coverage map
 
 ### 3. Build the question bank
 
-1. Extract questions and options from PDFs. If answers are highlighted, detect the highlight rectangles and map them to option lines with `scripts/extract_questions.py`.
-2. Cross-check with other question sources such as forms, answer keys, or screenshots.
+1. Extract questions and options from PDFs. If answers are highlighted, detect the highlight rectangles and map them to option lines with `scripts/extract_questions.py`. Option letters may run from A to H.
+2. Cross-check with other question sources such as forms, answer keys, CSV or XLSX exports, and screenshots.
 3. Fill missing keys only from duplicates. Keep a list of unresolved items.
-4. Normalize text, cluster duplicates with `scripts/dedup_questions.py`, and choose one canonical wording per cluster.
+4. Normalize text, cluster duplicates with `scripts/dedup_questions.py`, and choose one canonical wording per cluster. Only cluster the same question type.
 5. Preserve every raw question ID in the cluster members. Every raw question must appear exactly once.
-6. Write an explanation for every unique question: why the key is right, why the main distractors are wrong, and the exam trap. Ground explanations in the source material.
-7. Validate that every answer exists among the options and that every question has four options.
+6. Choose a type for every unique question: `single_choice`, `multiple_choice`, `true_false`, or `short_answer`. Choice questions need at least 2 options; 8 or fewer reads better.
+7. Write an explanation for every unique question: why the key is right, why the main distractors are wrong, and the exam trap. Ground explanations in the source material.
+8. Validate the final bank with `scripts/quiz_schema.py`. Answers must match the type, and every question needs a topic, explanation, and trap.
 
-Read `references/02-question-bank.md` for the schema, heuristics, and validation rules.
+Read `references/02-question-bank.md` for the schema, type rules, heuristics, and validation.
 
 ### 4. Extract audio advice
 
@@ -112,7 +118,7 @@ Prefer tables, short lists, formulas, and labeled diagrams over long prose. Do n
 Build only the outputs enabled in the brief. Skip video scripting, TTS, slides, and rendering when video is off.
 
 - Website: static, offline, light or dark theme, system fonts, responsive, no CDN.
-- Quiz: filter by topic, search, shuffle, reveal answer, explanation, trap, retry wrong, list mode, local progress.
+- Quiz: filter by topic, search, shuffle, reveal answer, explanation, trap, retry wrong, list mode, local progress. Support single choice, multiple choice, true or false, and short answer with variable option counts.
 - Print PDF: a print stylesheet with all questions, keys, and explanations, rendered with headless Chrome.
 - Video: requested duration, narrated TTS, screenshots of the site, title/bullets/takeaway, SRT.
 - Reference pages: glossary, abbreviations with tooltips, coverage map.
@@ -123,13 +129,13 @@ Read `references/04-site-build.md` and `references/05-video.md` before implement
 
 Run all checks:
 
-- Every source page/slide is mapped to an output page.
+- Every source page, slide, paragraph, line range, or row is mapped to an output page.
 - Every raw question is mapped exactly once.
-- Every answer is in the options, four options per question, explanation and trap present.
+- Every answer matches its question type; choice questions have at least 2 options; explanation and trap are present.
 - Zero broken relative links.
-- Quiz interactions work on desktop and mobile.
+- Quiz interactions work for all four question types on desktop and mobile.
 - No console errors.
-- White theme renders correctly at 390 px and 1440 px.
+- Light and dark themes render correctly at 390 px and 1440 px.
 - PDF contains the expected number of questions.
 - Video duration, audio levels, slide sync, and SRT match.
 - No em dash or unintended CJK characters in artifacts.
@@ -170,10 +176,12 @@ study-pack/
 
 | Gate | Pass condition |
 |---|---|
-| Source coverage | Every page/slide has a destination or is explicitly marked as non-content |
+| Source coverage | Every page, slide, paragraph, line range, or row has a destination or is explicitly marked as non-content |
+| Source formats | Every supported source is normalized or explicitly skipped; summary errors are reviewed |
 | Question coverage | Every raw question ID appears once in a cluster |
-| Answer integrity | Answer is one of the options; four options; no blank explanation |
-| Site integrity | 0 broken links; 0 console errors; quiz tested |
+| Question schema | `quiz_schema.py` reports 0 errors; warnings are reviewed |
+| Answer integrity | Answer matches the type; options are valid; no blank explanation or trap |
+| Site integrity | 0 broken links; 0 console errors; all quiz types tested |
 | Responsive | 390 px and 1440 px checked; no horizontal overflow except intentional tables |
 | Print | PDF opens; expected question count; readable at A4 |
 | Video | Duration matches target; audio audible; frames match sections; SRT valid |
@@ -184,20 +192,23 @@ study-pack/
 ## Resources
 
 - `scripts/extract_pdf.py`: text per page and TOC.
-- `scripts/extract_questions.py`: highlighted answers to structured JSON.
-- `scripts/dedup_questions.py`: fuzzy clustering and canonical questions.
+- `scripts/normalize_source.py`: mixed formats to JSONL with line, paragraph, and row refs.
+- `scripts/extract_questions.py`: highlighted answers to structured JSON, option letters A to H.
+- `scripts/dedup_questions.py`: fuzzy clustering, type-aware, answer conflict flags.
+- `scripts/quiz_schema.py`: validate question types, options, answers, and explanations.
 - `scripts/ocr_vision.swift` and `scripts/ocr.sh`: macOS Vision OCR.
 - `scripts/srt_to_paragraphs.py`: timestamped readable transcripts.
 - `scripts/tts_say.py`: macOS TTS for video narration.
 - `scripts/make_slides.py`: white-theme 1920x1080 slides from a script JSON.
 - `scripts/render_video.py`: segments, intro/outro, concat, AAC/H.264.
-- `scripts/check_site.py`: links, quiz data, PDF count, artifact scan.
+- `scripts/check_site.py`: links, quiz schema, PDF count, artifact scan.
 - `references/01-07`: detailed procedures and guardrails.
 - `references/08-project-brief.md`: question list, defaults, and brief schema.
+- `references/09-format-adapters.md`: supported formats, anchors, converters, and limits.
 - `assets/project-brief.example.json`: copyable brief.
 - `assets/site-template/`: offline study-site starter with light and dark modes.
 - `assets/video-template/script.example.json`: video script schema.
-- `examples/synthetic/`: safe test data.
+- `examples/synthetic/`: safe test data, including `questions-flexible.json`.
 
 ## Install
 

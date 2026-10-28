@@ -6,6 +6,7 @@
   "exam": {
     "questions": 30,
     "minutes": 45,
+    "question_types": ["single_choice", "multiple_choice", "true_false", "short_answer"],
     "interview": true
   },
   "outputs": {

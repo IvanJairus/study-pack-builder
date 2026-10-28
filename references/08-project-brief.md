@@ -9,7 +9,7 @@ Collect the choices that change the output structure once, before extraction sta
 Ask these in one batch. Accept defaults when the user does not care.
 
 1. **Sources and output:** Which folder contains the PDFs, PPTX, audio, and question files? Where should the study pack be written?
-2. **Exam shape:** How many questions, how many minutes, and is there an interview?
+2. **Exam shape:** How many questions, how many minutes, which question types, and is there an interview?
 3. **Language:** Which language should the summaries, quiz, and video use?
 4. **Outputs:** Which outputs do you want: website, quiz, printable PDF, narrated video, interview guide, and transcripts?
 5. **Video:** If yes, how many minutes, which voice, and do you want subtitles?
@@ -23,6 +23,7 @@ Ask these in one batch. Accept defaults when the user does not care.
 |---|---|
 | Language | Source language |
 | Theme | Light |
+| Question types | Infer from the source; mixed types allowed |
 | Video | Off unless requested |
 | Video length | 5 minutes when enabled |
 | Print PDF | On |
@@ -42,6 +43,7 @@ Ask these in one batch. Accept defaults when the user does not care.
   "exam": {
     "questions": 30,
     "minutes": 45,
+    "question_types": ["single_choice", "multiple_choice", "true_false", "short_answer"],
     "interview": true
   },
   "outputs": {

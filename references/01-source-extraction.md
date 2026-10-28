@@ -2,7 +2,19 @@
 
 ## Goal
 
-Turn every source into searchable text with page, slide, or timestamp references before writing summaries.
+Turn every source into searchable text with page, slide, line, paragraph, row, or timestamp references before writing summaries.
+
+## Mixed folders
+
+When the folder contains more than PDF and PPTX, normalize it first:
+
+```bash
+python scripts/normalize_source.py sources/ --out working/normalized.jsonl
+```
+
+This handles TXT, Markdown, HTML, DOCX, DOC, RTF, EPUB, CSV, TSV, and XLSX without extra dependencies. PDF and PPTX are included when PyMuPDF and python-pptx are installed. Read `references/09-format-adapters.md` for the record schema, anchors, converters, and failure modes.
+
+Use the dedicated PDF, PPTX, OCR, and audio procedures below when you need coordinates, highlighted answers, or timestamped transcripts.
 
 ## Inventory
 

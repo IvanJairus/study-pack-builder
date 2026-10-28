@@ -6,10 +6,11 @@ Usage:
 """
 import argparse
 import json
-import os
 import re
 import sys
 from pathlib import Path
+
+from quiz_schema import load_questions_file, validate_questions
 
 SKIP_PREFIXES = ("http://", "https://", "#", "mailto:", "tel:", "javascript:", "data:")
 CJK = re.compile(r"[\u4e00-\u9fff\u3040-\u30ff\uac00-\ud7af]")
@@ -36,33 +37,12 @@ def check_links(root: Path):
 
 
 def check_quiz(path: Path):
-    text = path.read_text(encoding="utf-8", errors="ignore")
-    match = re.search(r"window\.QUIZ_DATA\s*=\s*(\[.*\])\s*;", text, re.S)
-    if not match:
-        return ["quiz data not found"], 0, 0
     try:
-        data = json.loads(match.group(1))
-    except Exception as exc:
-        return [f"quiz data is not valid JSON: {exc}"], 0, 0
-    errors = []
-    ids = set()
-    topics = set()
-    for index, question in enumerate(data, 1):
-        qid = question.get("id", f"#{index}")
-        if qid in ids:
-            errors.append(f"duplicate id {qid}")
-        ids.add(qid)
-        if question.get("topic"):
-            topics.add(question["topic"])
-        options = question.get("options", {})
-        if not isinstance(options, dict) or len(options) != 4:
-            errors.append(f"{qid}: expected 4 options")
-        if question.get("answer") not in options:
-            errors.append(f"{qid}: answer not in options")
-        for field in ("question", "explanation", "trap"):
-            if not str(question.get(field, "")).strip():
-                errors.append(f"{qid}: empty {field}")
-    return errors, len(data), len(topics)
+        data = load_questions_file(path)
+    except (OSError, ValueError, json.JSONDecodeError) as exc:
+        return [f"quiz data is invalid: {exc}"], 0, {}, []
+    errors, warnings, stats = validate_questions(data)
+    return errors, len(data), stats, warnings
 
 
 def check_pdf(path: Path, expected: int | None):
@@ -111,10 +91,15 @@ def main() -> int:
     failures += len(broken)
 
     if args.quiz:
-        errors, count, topics = check_quiz(args.quiz)
-        print(f"quiz: {count} questions, {topics} topics, {len(errors)} errors")
+        errors, count, stats, warnings = check_quiz(args.quiz)
+        types = ", ".join(f"{key}={value}" for key, value in sorted(stats.get("by_type", {}).items()))
+        print(f"quiz: {count} questions, {len(stats.get('topics', []))} topics, {len(errors)} errors, {len(warnings)} warnings")
+        if types:
+            print(f"  types: {types}")
         for error in errors[:20]:
-            print(f"  {error}")
+            print(f"  error: {error}")
+        for warning in warnings[:20]:
+            print(f"  warning: {warning}")
         failures += len(errors)
 
     if args.pdf:

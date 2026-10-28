@@ -404,6 +404,7 @@ details .details-body p:last-child { margin-bottom: 0; }
 .quiz-opt { display: grid; grid-template-columns: 26px 1fr; gap: 10px; align-items: start; text-align: left; padding: 11px 13px; border: 1px solid var(--line); background: var(--paper); border-radius: var(--radius); font-family: var(--font-ui); font-size: 13.5px; line-height: 1.5; color: var(--ink-2); }
 .quiz-opt:hover { border-color: var(--line-strong); background: var(--surface); }
 .quiz-opt .letter { display: grid; place-items: center; width: 24px; height: 24px; border: 1px solid var(--line-strong); border-radius: 50%; font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); }
+.quiz-opt.multi .letter { border-radius: 6px; }
 .quiz-opt.selected { border-color: var(--ink); background: var(--surface-2); }
 .quiz-opt.selected .letter { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 .quiz-opt.correct { border-color: #8bb9a1; background: var(--ok-soft); }
@@ -411,6 +412,12 @@ details .details-body p:last-child { margin-bottom: 0; }
 .quiz-opt.wrong { border-color: #d6a29a; background: var(--bad-soft); }
 .quiz-opt.wrong .letter { background: var(--bad); border-color: var(--bad); color: var(--on-bad); }
 .quiz-opt[disabled] { cursor: default; opacity: 1; }
+.quiz-hint { margin: 10px 0 0; font-family: var(--font-ui); font-size: 11.5px; color: var(--muted); }
+.quiz-short { display: grid; gap: 7px; margin-top: 14px; }
+.quiz-short label { font-family: var(--font-ui); font-size: 10.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.quiz-short input { width: 100%; padding: 11px 13px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper); color: var(--ink); font-family: var(--font-ui); font-size: 14px; }
+.quiz-short input:focus { outline: 2px solid var(--ink); outline-offset: 1px; border-color: var(--ink); }
+.quiz-short input[disabled] { opacity: 1; background: var(--surface-2); }
 .quiz-feedback { margin-top: 16px; padding: 14px 15px; border-left: 3px solid var(--ok); background: var(--ok-soft); border-radius: 0 var(--radius) var(--radius) 0; display: none; }
 .quiz-feedback.show { display: block; }
 .quiz-feedback.wrong { border-left-color: var(--bad); background: var(--bad-soft); }
