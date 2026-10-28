@@ -194,18 +194,31 @@ study-pack/
 
 ## Install
 
-Clone this repository into a skill directory:
+Fast path with npx:
+
+```bash
+npx github:IvanJairus/study-pack-builder
+```
+
+After the package is published to npm, the shorter form is:
+
+```bash
+npx study-pack-builder
+```
+
+Project-level install:
+
+```bash
+npx github:IvanJairus/study-pack-builder --project
+```
+
+Installer options: `--target <path>`, `--force`, `--dry-run`.
+
+Manual clone as a fallback:
 
 ```bash
 git clone https://github.com/IvanJairus/study-pack-builder.git \
   ~/.qoder/skills/study-pack-builder
-```
-
-Or copy it into a project-level skill directory:
-
-```bash
-git clone https://github.com/IvanJairus/study-pack-builder.git \
-  .qoder/skills/study-pack-builder
 ```
 
 Reload skills, then invoke `/study-pack-builder`.
